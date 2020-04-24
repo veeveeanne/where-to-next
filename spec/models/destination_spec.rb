@@ -1,28 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Destination, type: :model do
-  it "valid with valid name and state" do
-    destination = Destination.new(
-      name: "Boston",
-      state: "Massachusetts"
-    )
-
-    expect(destination).to be_valid
+  context "validations" do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:state) }
   end
 
-  it "is not valid without a name" do
-    destination = Destination.new(
-      state: "Massachusetts"
-    )
-
-    expect(destination).to_not be_valid
-  end
-
-  it "is not valid without a state" do
-    destination = Destination.new(
-      name: "Boston"
-    )
-
-    expect(destination).to_not be_valid
+  context "associations" do
+    it { should have_many(:listings) }
+    it { should have_many(:users).through(:listings) }
   end
 end
