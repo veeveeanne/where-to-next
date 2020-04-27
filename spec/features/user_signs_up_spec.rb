@@ -18,12 +18,14 @@ feature 'user registers', %Q{
     fill_in 'Email', with: 'john@example.com'
     fill_in 'First name', with: 'John'
     fill_in 'Last name', with: 'Doe'
+    fill_in 'City', with: 'City'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'password'
 
     click_button 'Sign up'
 
     expect(page).to have_content('Welcome! You have signed up successfully.')
+    expect(page).to have_content('My Account')
     expect(page).to have_content('Sign Out')
   end
 
@@ -33,6 +35,7 @@ feature 'user registers', %Q{
     click_button 'Sign up'
 
     expect(page).to have_content("can't be blank")
+    expect(page).to_not have_content('My Account')
     expect(page).to_not have_content('Sign Out')
   end
 
@@ -42,6 +45,7 @@ feature 'user registers', %Q{
     fill_in 'Email', with: 'john@example.com'
     fill_in 'First name', with: 'John'
     fill_in 'Last name', with: 'Doe'
+    fill_in 'City', with: 'City'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'PASSWORD'
 
@@ -51,6 +55,8 @@ feature 'user registers', %Q{
     expect(find_field('Email').value).to eq('john@example.com')
     expect(find_field('First name').value).to eq('John')
     expect(find_field('Last name').value).to eq('Doe')
+    expect(find_field('City').value).to eq('City')
+    expect(page).to_not have_content('My Account')
     expect(page).to_not have_content('Sign Out')
   end
 
@@ -60,15 +66,17 @@ feature 'user registers', %Q{
     fill_in 'Email', with: 'john'
     fill_in 'First name', with: 'John'
     fill_in 'Last name', with: 'Doe'
+    fill_in 'City', with: 'City'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'password'
 
     click_button 'Sign up'
 
-    expect(page).to have_content("Email is invalid")
+    expect(page).to have_content('Email is invalid')
     expect(find_field('Email').value).to eq('john')
     expect(find_field('First name').value).to eq('John')
     expect(find_field('Last name').value).to eq('Doe')
+    expect(find_field('City').value).to eq('City')
     expect(page).to_not have_content('Sign Out')
   end
 end
