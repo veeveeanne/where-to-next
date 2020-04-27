@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const DestinationsIndexContainer = props => {
+const DestinationIndexContainer = props => {
   const [destinations, setDestinations] = useState([])
 
   useEffect(() => {
@@ -36,4 +36,4 @@ const DestinationsIndexContainer = props => {
   )
 }
 
-export default DestinationsIndexContainer
+export default DestinationIndexContainer
