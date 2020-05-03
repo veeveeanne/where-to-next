@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 const DestinationIndexContainer = props => {
   const [destinations, setDestinations] = useState([])
@@ -30,9 +31,12 @@ const DestinationIndexContainer = props => {
   })
 
   return(
-    <ul>
-      {destinationsList}
-    </ul>
+    <div>
+      <ul>
+        {destinationsList}
+      </ul>
+      <Link to='/destinations/new'>Add a new destination</Link>
+    </div>
   )
 }
 

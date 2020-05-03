@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import _ from 'lodash'
 
-import ErrorList from './ErrorList'
+import DestinationFormTile from './DestinationFormTile'
 
 const DestinationFormContainer = props => {
   const [destinationForm, setDestinationForm] = useState({
     name: "",
     state: ""
   })
+  const [destination, setDestination] = useState({})
   const [errors, setErrors] = useState({})
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const handleFormChange = (event) => {
     setDestinationForm({
@@ -29,11 +32,27 @@ const DestinationFormContainer = props => {
         },
         body: JSON.stringify(destinationForm)
       })
-      setDestinationForm({
-        name: "",
-        state: ""
+      .then(response => {
+        if (response.ok) {
+          return response
+        } else {
+          let errorMessage = `${response.status} (${response.statusText})`
+          let error = new Error(errorMessage)
+          throw(error)
+        }
       })
+      .then(response => response.json())
+      .then(body => {
+        setDestination(body)
+        setDestinationForm({
+          name: "",
+          state: ""
+        })
+        setShouldRedirect(true)
+      })
+      .catch(error => console.error(`Error in fetch: ${error}`))
     }
+
   }
 
   const validForSubmission = () => {
@@ -54,40 +73,24 @@ const DestinationFormContainer = props => {
     return _.isEmpty(submitErrors)
   }
 
+  if (shouldRedirect) {
+    return(
+      <Redirect to={{
+          pathname: '/listing/new',
+          destination: {destination}
+        }} />
+    )
+  }
+
   return(
     <div className="form">
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="name">Name of location:</label>
-        <input
-          name="name"
-          id="name"
-          type="text"
-          onChange={handleFormChange}
-          value={destinationForm.name}
-        />
-
-        <label htmlFor="state">State:</label>
-        <input
-          name="state"
-          id="state"
-          type="text"
-          onChange={handleFormChange}
-          value={destinationForm.state}
-        />
-
-        <ErrorList
-          errors={errors}
-        />
-
-        <div className="button-group">
-          <input
-            className="button"
-            type="submit"
-            value="Add Destination"
-          />
-          <button type="button" className="button">Clear Form</button>
-        </div>
-      </form>
+      <p>I know the exact name of the location I want to visit</p>
+      <DestinationFormTile
+        destinationForm = {destinationForm}
+        handleFormChange = {handleFormChange}
+        handleFormSubmit = {handleFormSubmit}
+        errors = {errors}
+      />
     </div>
   )
 }
