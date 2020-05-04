@@ -17,7 +17,7 @@ const DestinationIndexContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setDestinations(body)
+      setDestinations(body.destinations)
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }, [])

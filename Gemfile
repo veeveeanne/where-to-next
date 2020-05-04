@@ -54,3 +54,5 @@ gem 'devise'
 gem 'foundation-rails', '~> 6.5'
 gem 'webpacker', '~> 3.3'
 gem 'faraday'
+gem 'active_model_serializers'
+gem 'vcr', group: [:test]

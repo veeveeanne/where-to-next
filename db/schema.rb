@@ -20,9 +20,9 @@ ActiveRecord::Schema.define(version: 2020_05_03_154420) do
     t.string "state", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "latitude", precision: 13, scale: 10
-    t.decimal "longitude", precision: 13, scale: 10
-    t.string "address"
+    t.decimal "latitude", precision: 13, scale: 10, null: false
+    t.decimal "longitude", precision: 13, scale: 10, null: false
+    t.string "address", null: false
   end
 
   create_table "listings", force: :cascade do |t|
