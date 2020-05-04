@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  context 'associations' do
+  describe 'associations' do
     it { should have_many(:listings) }
     it { should have_many(:destinations).through(:listings) }
   end
 
-  context 'validations' do
+  describe 'validations' do
     subject { FactoryBot.create(:user) }
 
     it { should validate_presence_of(:email) }
