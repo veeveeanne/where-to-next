@@ -1,0 +1,94 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://maps.googleapis.com/maps/api/place/textsearch/json?key=<PLACES_API_KEY>&query=Museum+of+Modern+Art+New+York
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.0.1
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      date:
+      - Mon, 04 May 2020 01:42:07 GMT
+      expires:
+      - Mon, 04 May 2020 01:47:07 GMT
+      cache-control:
+      - public, max-age=300
+      vary:
+      - Accept-Language
+      server:
+      - scaffolding on HTTPServer2
+      content-length:
+      - '878'
+      x-xss-protection:
+      - '0'
+      x-frame-options:
+      - SAMEORIGIN
+      server-timing:
+      - gfet4t7; dur=521
+      alt-svc:
+      - h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443";
+        ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+           "html_attributions" : [],
+           "results" : [
+              {
+                 "business_status" : "CLOSED_TEMPORARILY",
+                 "formatted_address" : "11 W 53rd St, New York, NY 10019, United States",
+                 "geometry" : {
+                    "location" : {
+                       "lat" : 40.7614327,
+                       "lng" : -73.97762159999999
+                    },
+                    "viewport" : {
+                       "northeast" : {
+                          "lat" : 40.76300227989272,
+                          "lng" : -73.97613122010728
+                       },
+                       "southwest" : {
+                          "lat" : 40.76030262010728,
+                          "lng" : -73.97883087989273
+                       }
+                    }
+                 },
+                 "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png",
+                 "id" : "05fd8501e2532c0ea3033bd3f3a282ffff502863",
+                 "name" : "The Museum of Modern Art",
+                 "permanently_closed" : true,
+                 "photos" : [
+                    {
+                       "height" : 1600,
+                       "html_attributions" : [
+                          "\u003ca href=\"https://maps.google.com/maps/contrib/108952592396835498631\"\u003eLuis Marcoleta\u003c/a\u003e"
+                       ],
+                       "photo_reference" : "CmRaAAAAblPFQo-T6P5N9ZiNiBecOc8wKnVtDnL03IewYvWNX7IhowaV_iybwD6DEW67uJbB5NDuVyRats0CL_idS04zVTSa_hdAnoXtsFy3uNXcZqi3O17vY7vhU2drEV6N16vfEhCihhD9uGah7O9G5rJ14XLcGhTzyXhcpP5Kydm4zhCkmYWePPCVlQ",
+                       "width" : 1200
+                    }
+                 ],
+                 "place_id" : "ChIJKxDbe_lYwokRVf__s8CPn-o",
+                 "plus_code" : {
+                    "compound_code" : "Q26C+HX New York",
+                    "global_code" : "87G8Q26C+HX"
+                 },
+                 "rating" : 4.6,
+                 "reference" : "ChIJKxDbe_lYwokRVf__s8CPn-o",
+                 "types" : [ "tourist_attraction", "museum", "point_of_interest", "establishment" ],
+                 "user_ratings_total" : 32718
+              }
+           ],
+           "status" : "OK"
+        }
+    http_version: null
+  recorded_at: Mon, 04 May 2020 01:42:07 GMT
+recorded_with: VCR 5.1.0

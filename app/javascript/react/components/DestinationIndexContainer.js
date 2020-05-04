@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
-const DestinationsIndexContainer = props => {
+const DestinationIndexContainer = props => {
   const [destinations, setDestinations] = useState([])
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const DestinationsIndexContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setDestinations(body)
+      setDestinations(body.destinations)
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }, [])
@@ -30,10 +31,13 @@ const DestinationsIndexContainer = props => {
   })
 
   return(
-    <ul>
-      {destinationsList}
-    </ul>
+    <div>
+      <ul>
+        {destinationsList}
+      </ul>
+      <Link to='/destinations/new'>Add a new destination</Link>
+    </div>
   )
 }
 
-export default DestinationsIndexContainer
+export default DestinationIndexContainer
