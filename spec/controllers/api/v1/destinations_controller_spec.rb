@@ -45,11 +45,9 @@ RSpec.describe Api::V1::DestinationsController, type: :controller do
       api_response = Faraday.get(url)
       response_body = JSON.parse(api_response.body)
       } }
-
+      
     it "returns a successful response status from the external API" do
-      VCR.use_cassette("get_location") do
-        expect(response.status).to eq 200
-      end
+      expect(response.status).to eq 200
     end
 
     it "returns search results from the external API based on the query string" do
