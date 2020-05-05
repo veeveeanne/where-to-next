@@ -1,0 +1,82 @@
+:root {
+  --dark-green: #114B5F;
+  --green: #028090;
+  --light-green: #E4FDE1;
+  --blue: #456990;
+  --red: #F45B69;
+}
+
+body {
+  font-family: 'Questrial', sans-serif;
+  color: var(--dark-green);
+}
+
+div {
+  color: var(--dark-green);
+}
+
+.button {
+  background-color: var(--red);
+}
+
+.button a {
+  color: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syncopate', sans-serif;
+  text-align: center;
+  color: var(--dark-green);
+}
+
+h1 a {
+  color: var(--red);
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.picture-frame {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.top-bar {
+  background-color: var(--blue);
+}
+
+.top-bar-section li {
+  background-color: var(--light-green);
+}
+
+.callout {
+  padding: 50px;
+}
+
+.field {
+  font-family: 'Questrial', sans-serif;
+}
+
+.welcome {
+  margin: auto;
+  padding: 200px 50px 150px 50px;
+}
+
+.cta-secondary {
+  font-weight: 700;
+}
+
+.cta-primary {
+  color: var(--red);
+  font-weight: 700;
+  font-style: italic;
+  padding-top: 50px;
+}
+
+.form {
+  padding: 2rem;
+  width: 50%;
+}

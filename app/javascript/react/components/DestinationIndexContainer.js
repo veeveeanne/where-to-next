@@ -25,17 +25,22 @@ const DestinationIndexContainer = props => {
   let destinationsList = destinations.map(destinationObj => {
     return(
       <li key={destinationObj.id}>
-      {destinationObj.name}, {destinationObj.state}
+        {destinationObj.name}, {destinationObj.state}
       </li>
     )
   })
 
   return(
-    <div>
+    <div className="callout">
+      <h1>Popular Destinations</h1>
       <ul>
         {destinationsList}
       </ul>
-      <Link to='/destinations/new'>Add a new destination</Link>
+      <Link to='/destinations/new'>
+        <button type="button" className="button">
+          Add a new destination
+        </button>
+      </Link>
     </div>
   )
 }

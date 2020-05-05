@@ -9,6 +9,7 @@ const DestinationFormTile = props => {
   let destinationForm = props.destinationForm
   let handleFormChange = props.handleFormChange
   let handleFormSubmit = props.handleFormSubmit
+  let handleClearForm = props.handleClearForm
   let errors = props.errors
 
   const stateOptions = [""].concat(states).map(state => {
@@ -21,36 +22,51 @@ const DestinationFormTile = props => {
 
   return(
     <form onSubmit={handleFormSubmit}>
-      <label htmlFor="name">Name of location:</label>
-      <input
-        name="name"
-        id="name"
-        type="text"
-        onChange={handleFormChange}
-        value={destinationForm.name}
-      />
-
-      <label htmlFor="state">State:</label>
-      <select
-        name="state"
-        id="state"
-        onChange={handleFormChange}
-        value={destinationForm.state}>
-          {stateOptions}
-      </select>
-
-      <ErrorList
-        errors={errors}
-      />
-
-      <div className="button-group">
-        <input
-          className="button"
-          type="submit"
-          value="Add Destination"
-        />
-        <button type="button" className="button">Clear Form</button>
-      </div>
+      <fieldset className="fieldset">
+        <legend>{props.legend}</legend>
+        <div className="grid-container">
+          <div className="grid-y">
+            <div className="cell small-6 medium-4 large-10">
+              <label htmlFor="name">Name of location:</label>
+              <input
+                name="name"
+                id="name"
+                type="text"
+                onChange={handleFormChange}
+                value={destinationForm.name}
+              />
+            </div>
+            <div className="cell small-6 medium-4 large-10">
+              <label htmlFor="state">State:</label>
+              <select
+                name="state"
+                id="state"
+                onChange={handleFormChange}
+                value={destinationForm.state}
+              >
+                {stateOptions}
+              </select>
+            </div>
+            <div className="button-group">
+              <input
+                className="hollow button secondary"
+                type="submit"
+                value="Add Destination"
+              />
+              <button
+                type="button"
+                className="hollow button secondary"
+                onClick={handleClearForm}
+              >
+                Clear Form
+              </button>
+            </div>
+              <ErrorList
+                errors={errors}
+              />
+          </div>
+        </div>
+      </fieldset>
     </form>
   )
 }

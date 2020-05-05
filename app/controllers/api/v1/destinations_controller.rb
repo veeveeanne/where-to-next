@@ -4,7 +4,6 @@ require 'active_support'
 class Api::V1::DestinationsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
-
   def create
     destination = Destination.where(latitude: params["latitude"].to_d, longitude: params["longitude"].to_d).first_or_create do |destination|
       destination.name = params["name"]

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :destinations, only: [:create, :index, :search]
       get '/destinations/search' => 'destinations#search'
+      resources :listings, only: [:create, :search]
+      get '/listings/search' => 'listings#search'
     end
   end
 end

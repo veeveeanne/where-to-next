@@ -5,7 +5,7 @@ import _ from 'lodash'
 import DestinationFormTile from './DestinationFormTile'
 import DestinationResultTile from './DestinationResultTile'
 
-const DestinationFormContainer = props => {
+const NewDestinationFormContainer = props => {
   const [destinationForm, setDestinationForm] = useState({
     name: "",
     state: ""
@@ -89,43 +89,52 @@ const DestinationFormContainer = props => {
           key={destination.place_id}
           destination={destination}
           handleDestinationClick={handleDestinationClick}
-          />
+        />
       )
     })
   }
 
   if (destination.create) {
     fetch('/api/v1/destinations', {
-        credentials: "same-origin",
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(destination)
-      })
-      .then(response => {
-        if (response.ok) {
-          return response
-        } else {
-          let errorMessage = `${response.status} (${response.statusText})`
-          let error = new Error(errorMessage)
-          throw(error)
-        }
-      })
-      .then(response => response.json())
-      .then(body => {
-        if (body.errors) {
-          setErrors(body.errors)
-        } else {
-          setDestination({
-            create: false
-          })
-          setShouldRedirect(true)
-        }
-      })
-      .catch(error => console.error(`Error in fetch: ${error}`))
-    }
+      credentials: "same-origin",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(destination)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw(error)
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      if (body.errors) {
+        setErrors(body.errors)
+      } else {
+        setDestination({
+          create: false
+        })
+        setShouldRedirect(true)
+      }
+    })
+    .catch(error => console.error(`Error in fetch: ${error}`))
+  }
+
+  const handleClearForm = () => {
+    setDestinationForm({
+      name: "",
+      state: ""
+    })
+  }
+
+  let legend = "Add a new destination"
 
   if (shouldRedirect) {
     return <Redirect to='/destinations' />
@@ -136,12 +145,14 @@ const DestinationFormContainer = props => {
           destinationForm = {destinationForm}
           handleFormChange = {handleFormChange}
           handleFormSubmit = {handleFormSubmit}
+          handleClearForm = {handleClearForm}
           errors = {errors}
-          />
+          legend= {legend}
+        />
         {destinationOptions}
       </div>
     )
   }
 }
 
-export default DestinationFormContainer
+export default NewDestinationFormContainer

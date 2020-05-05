@@ -39,35 +39,6 @@ RSpec.describe Api::V1::DestinationsController, type: :controller do
     end
   end
 
-  describe "GET#search" do
-    it "returns a successful response status from the external API" do
-      VCR.use_cassette("get_location") do
-        get :search, params: {query: "Museum of Modern Art New York"}
-
-        expect(response.status).to eq 200
-        expect(response.content_type).to eq "application/json"
-      end
-    end
-
-    it "returns search results from the external API based on the query string" do
-      VCR.use_cassette("get_location") do
-        get :search, params: {query: "Museum of Modern Art New York"}
-        returned_json = JSON.parse(response.body)
-        results = returned_json["results"]
-
-        expect(results.length).to eq 1
-        expect(results[0]).to have_key "name"
-        expect(results[0]).to have_key "formatted_address"
-        expect(results[0]).to have_key "geometry"
-        expect(results[0]["geometry"]).to have_key "location"
-        expect(results[0]["geometry"]["location"]).to have_key "lat"
-        expect(results[0]["geometry"]["location"]).to have_key "lng"
-        expect(results[0]["name"]).to include "Museum of Modern Art"
-        expect(results[0]["formatted_address"]).to include "New York"
-      end
-    end
-  end
-
   describe "POST#create" do
     let!(:existing_params) { {
       name: "Boston",
@@ -128,6 +99,26 @@ RSpec.describe Api::V1::DestinationsController, type: :controller do
         expect(returned_json["destination"]["address"]).to eq new_params[:address]
         expect(returned_json["destination"]["latitude"].to_d).to eq new_params[:latitude].to_d
         expect(returned_json["destination"]["longitude"].to_d).to eq new_params[:longitude].to_d
+      end
+    end
+  end
+
+  describe "GET#search" do
+    it "makes a query to the external API based on the params" do
+      VCR.use_cassette("get_location") do
+        get :search, params: {query: "Museum of Modern Art New York"}
+        returned_json = JSON.parse(response.body)
+        results = returned_json["results"]
+
+        expect(results.length).to eq 1
+        expect(results[0]).to have_key "name"
+        expect(results[0]).to have_key "formatted_address"
+        expect(results[0]).to have_key "geometry"
+        expect(results[0]["geometry"]).to have_key "location"
+        expect(results[0]["geometry"]["location"]).to have_key "lat"
+        expect(results[0]["geometry"]["location"]).to have_key "lng"
+        expect(results[0]["name"]).to include "Museum of Modern Art"
+        expect(results[0]["formatted_address"]).to include "New York"
       end
     end
   end
