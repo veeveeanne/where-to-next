@@ -7,7 +7,11 @@ class Api::V1::ListingsController < ApplicationController
     listing.user = current_user
     listing.save
 
-    render json: listing
+    if listing.save
+      render json: listing
+    else
+      render json: { error: listing.errors.messages[:destination_id].to_sentence }
+    end
   end
 
   def search

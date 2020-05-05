@@ -25,7 +25,7 @@ const DestinationIndexContainer = props => {
   let destinationsList = destinations.map(destinationObj => {
     return(
       <li key={destinationObj.id}>
-      {destinationObj.name}, {destinationObj.state}
+        {destinationObj.name}, {destinationObj.state}
       </li>
     )
   })

@@ -34,7 +34,7 @@ const DestinationFormTile = props => {
                 type="text"
                 onChange={handleFormChange}
                 value={destinationForm.name}
-                />
+              />
             </div>
             <div className="cell small-6 medium-4 large-10">
               <label htmlFor="state">State:</label>
@@ -42,7 +42,8 @@ const DestinationFormTile = props => {
                 name="state"
                 id="state"
                 onChange={handleFormChange}
-                value={destinationForm.state}>
+                value={destinationForm.state}
+              >
                 {stateOptions}
               </select>
             </div>
@@ -51,12 +52,13 @@ const DestinationFormTile = props => {
                 className="hollow button secondary"
                 type="submit"
                 value="Add Destination"
-                />
+              />
               <button
                 type="button"
                 className="hollow button secondary"
-                onClick={handleClearForm}>
-                  Clear Form
+                onClick={handleClearForm}
+              >
+                Clear Form
               </button>
             </div>
               <ErrorList

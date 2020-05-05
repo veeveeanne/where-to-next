@@ -89,7 +89,7 @@ const NewDestinationFormContainer = props => {
           key={destination.place_id}
           destination={destination}
           handleDestinationClick={handleDestinationClick}
-          />
+        />
       )
     })
   }
@@ -148,7 +148,7 @@ const NewDestinationFormContainer = props => {
           handleClearForm = {handleClearForm}
           errors = {errors}
           legend= {legend}
-          />
+        />
         {destinationOptions}
       </div>
     )

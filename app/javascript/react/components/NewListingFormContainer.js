@@ -16,7 +16,9 @@ const NewListingFormContainer = props => {
   const [shouldAddDestination, setShouldAddDestination] = useState(false)
   const [destination, setDestination] = useState({create: false})
   const [searchDestinations, setSearchDestinations] = useState([])
-  const [shouldRedirect, setShouldRedirect] = useState(false)
+  const [addedListing, setAddedListing] = useState({})
+
+  const legend = "Add a new destination to my bucket list"
 
   const handleFormChange = (event) => {
     setListingForm({
@@ -47,7 +49,6 @@ const NewListingFormContainer = props => {
             state: ""
           })
         } else {
-          debugger
           setShouldAddDestination(true)
         }
       })
@@ -101,7 +102,12 @@ const NewListingFormContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      //body = {id: id, destination_id: id, user_id: id}
+      if (body.error) {
+        setErrors({destination: body["error"]})
+      } else {
+        setAddedListing(body)
+      }
+      setDestinationMatches([])
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
@@ -118,8 +124,6 @@ const NewListingFormContainer = props => {
       )
     })
   }
-
-  let legend = "Add a new destination to my bucket list"
 
   if (shouldAddDestination) {
     let query = listingForm.name.concat(" ", listingForm.state)
@@ -149,19 +153,6 @@ const NewListingFormContainer = props => {
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
-  let destinationOptions
-  if (searchDestinations.length > 0) {
-    destinationOptions = searchDestinations.map(destination => {
-      return(
-        <DestinationResultTile
-          key={destination.place_id}
-          destination={destination}
-          handleDestinationClick={handleDestinationClick}
-          />
-      )
-    })
-  }
-
   const handleDestinationClick = (payload) => {
     setDestination({
       ...destination,
@@ -170,6 +161,19 @@ const NewListingFormContainer = props => {
       latitude: payload.latitude,
       longitude: payload.longitude,
       create: true
+    })
+  }
+
+  let destinationOptions
+  if (searchDestinations.length > 0) {
+    destinationOptions = searchDestinations.map(destination => {
+      return(
+        <DestinationResultTile
+          key={destination.place_id}
+          destination={destination}
+          handleDestinationClick={handleDestinationClick}
+        />
+      )
     })
   }
 
@@ -194,36 +198,29 @@ const NewListingFormContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      if (body.errors) {
-        setErrors(body.errors)
-      } else {
-        setDestination({
-          create: false
-        })
-        setShouldRedirect(true)
-      }
+      setDestination({
+        create: false
+      })
+      handleMatchClick({id: body.destination.id})
+      setSearchDestinations([])
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
-  if (shouldRedirect) {
-    return <Redirect to='/destinations' />
-  } else {
-    return(
-      <div className="form">
+  return(
+    <div className="form">
       <DestinationFormTile
-      destinationForm = {listingForm}
-      handleFormChange = {handleFormChange}
-      handleFormSubmit = {handleFormSubmit}
-      handleClearForm = {handleClearForm}
-      errors = {errors}
-      legend = {legend}
+        destinationForm = {listingForm}
+        handleFormChange = {handleFormChange}
+        handleFormSubmit = {handleFormSubmit}
+        handleClearForm = {handleClearForm}
+        errors = {errors}
+        legend = {legend}
       />
       {matchOptions}
       {destinationOptions}
-      </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default NewListingFormContainer
