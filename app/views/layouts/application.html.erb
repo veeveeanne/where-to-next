@@ -4,31 +4,35 @@
   <title>WhereToNext</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag 'application', 'https://fonts.googleapis.com/css?family=Questrial' %>
+  <%= stylesheet_link_tag 'application', 'https://fonts.googleapis.com/css?family=Syncopate' %>
+  <%= stylesheet_link_tag 'application', 'https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
   <nav class="top-bar">
     <h1><a href="/">WhereToNext</a></h1>
-
-    <section class="top-bar-section">
-      <ul class="right">
+    <div class="top-bar-right">
+      <div class="button-group">
         <%- if current_user -%>
-          <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></li>
-          <li><%= link_to 'My Account', root_path %></li>
+            <%= link_to 'My Account', root_path, class: "button" %>
+            <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "button" %>
         <%- else -%>
-          <li><%= link_to 'Sign Up', new_user_registration_path %></li>
-          <li><%= link_to 'Sign In', new_user_session_path %></li>
+          <%= link_to 'Sign Up', new_user_registration_path, class: "button" %>
+          <%= link_to 'Sign In', new_user_session_path, class: "button" %>
         <%- end -%>
-      </ul>
-    </section>
+      </div>
+    </div>
   </nav>
 
-  <%- flash.each do |key, value| -%>
-    <div class="flash flash-<%= key %>">
-      <%= value %>
-    </div>
-  <%- end -%>
+  <div id="flash-messages">
+    <% flash.each do |key, value| %>
+      <div class="flash flash-<%= key %>">
+        <%= value %>
+      </div>
+    <% end %>
+  </div>
 
   <%= yield %>
 
