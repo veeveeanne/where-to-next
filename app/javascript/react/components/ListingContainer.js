@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
+import ListingTile from './ListingTile'
 import DestinationFormTile from './DestinationFormTile'
 import ErrorList from './ErrorList'
 import MatchResultTile from './MatchResultTile'
 import DestinationResultTile from './DestinationResultTile'
 
-const NewListingFormContainer = props => {
+const ListingContainer = props => {
   const [listingForm, setListingForm] = useState({
     name: "",
     state: ""
@@ -16,9 +17,28 @@ const NewListingFormContainer = props => {
   const [shouldAddDestination, setShouldAddDestination] = useState(false)
   const [destination, setDestination] = useState({create: false})
   const [searchDestinations, setSearchDestinations] = useState([])
-  const [addedListing, setAddedListing] = useState({})
+  const [listings, setListings] = useState([])
+  const [selectedLine, setSelectedLine] = useState(null)
 
-  const legend = "Add a new destination to my bucket list"
+  const legend = "Add to my bucket list"
+
+  useEffect(() => {
+    fetch('/api/v1/listings')
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw(error)
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      setListings(body.destinations)
+    })
+    .catch(error => console.error(`Error in fetch: ${error}`))
+  }, [])
 
   const handleFormChange = (event) => {
     setListingForm({
@@ -27,8 +47,21 @@ const NewListingFormContainer = props => {
     })
   }
 
+  let displayListings = listings.map((destination) => {
+    return(
+      <ListingTile
+        key={destination.id}
+        destination={destination}
+        selectedLine={selectedLine}
+        setSelectedLine={setSelectedLine}
+      />
+    )
+  })
+
   const handleFormSubmit = (event) => {
     event.preventDefault()
+    setDestinationMatches([])
+    setSearchDestinations([])
     if (validForSubmission()) {
       fetch(`/api/v1/listings/search?name=${listingForm.name}&state=${listingForm.state}`)
       .then(response => {
@@ -105,7 +138,10 @@ const NewListingFormContainer = props => {
       if (body.error) {
         setErrors({destination: body["error"]})
       } else {
-        setAddedListing(body)
+        setListings([
+          listings,
+          body
+        ])
       }
       setDestinationMatches([])
     })
@@ -120,6 +156,8 @@ const NewListingFormContainer = props => {
           key={destination.address}
           destination={destination}
           handleMatchClick={handleMatchClick}
+          selectedLine={selectedLine}
+          setSelectedLine={setSelectedLine}
         />
       )
     })
@@ -172,9 +210,16 @@ const NewListingFormContainer = props => {
           key={destination.place_id}
           destination={destination}
           handleDestinationClick={handleDestinationClick}
+          selectedLine={selectedLine}
+          setSelectedLine={setSelectedLine}
         />
       )
     })
+  }
+
+  let selectionMessage
+  if (matchOptions || destinationOptions) {
+    selectionMessage = "Please click your destination below"
   }
 
   if (destination.create) {
@@ -208,19 +253,36 @@ const NewListingFormContainer = props => {
   }
 
   return(
-    <div className="form">
-      <DestinationFormTile
-        destinationForm = {listingForm}
-        handleFormChange = {handleFormChange}
-        handleFormSubmit = {handleFormSubmit}
-        handleClearForm = {handleClearForm}
-        errors = {errors}
-        legend = {legend}
-      />
-      {matchOptions}
-      {destinationOptions}
+    <div className="grid-container">
+      <div className="grid-x grid-margin-x">
+        <div className="medium-6 column">
+          <div className="form">
+            <DestinationFormTile
+              destinationForm = {listingForm}
+              handleFormChange = {handleFormChange}
+              handleFormSubmit = {handleFormSubmit}
+              handleClearForm = {handleClearForm}
+              errors = {errors}
+              legend = {legend}
+            />
+          </div>
+        </div>
+        <div className="medium-6 column align-self-middle">
+          <h6 className="instruction">
+            {selectionMessage}
+          </h6>
+          <div className="option">
+            {matchOptions}
+            {destinationOptions}
+          </div>
+        </div>
+      </div>
+      <div className="tile box">
+        <h3 className="header">My Travel Bucket List</h3>
+        {displayListings}
+      </div>
     </div>
   )
 }
 
-export default NewListingFormContainer
+export default ListingContainer

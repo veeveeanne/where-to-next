@@ -5,6 +5,19 @@ const MatchResultTile = props => {
   let name = props.destination.name
   let address = props.destination.address
 
+  const handleMouseEnter = () => {
+    props.setSelectedLine(id)
+  }
+
+  const handleMouseLeave = () => {
+    props.setSelectedLine(null)
+  }
+
+  let classValue = ""
+  if (props.selectedLine === id) {
+    classValue = "text-selected"
+  }
+
   const handleClick = (event) => {
     props.handleMatchClick({
       id: id
@@ -12,7 +25,12 @@ const MatchResultTile = props => {
   }
 
   return(
-    <div onClick={handleClick}>
+    <div
+      className={classValue}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
       {name} - {address}
     </div>
   )

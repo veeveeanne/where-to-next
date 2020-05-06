@@ -33,17 +33,6 @@ h1 a {
   color: var(--red);
 }
 
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.picture-frame {
-  border-radius: 50%;
-  overflow: hidden;
-}
-
 .top-bar {
   background-color: var(--blue);
 }
@@ -53,6 +42,7 @@ img {
 }
 
 .callout {
+  margin: 50px;
   padding: 50px;
 }
 
@@ -78,5 +68,50 @@ img {
 
 .form {
   padding: 2rem;
-  width: 50%;
+}
+
+.instruction {
+  color: var(--green);
+  font-family: 'Syncopate', sans-serif;
+}
+
+.option {
+  height: 250px;
+  overflow: auto;
+}
+
+.align-self-middle {
+  height: 280px
+}
+
+a:hover {
+  color: var(--green);
+}
+
+.top-bar a:hover {
+  color: var(--red);
+}
+
+.flash {
+  position: fixed;
+}
+
+.text {
+  font-family: 'Questrial', sans-serif;
+  color: var(--light-green);
+}
+
+.text-selected {
+  font-family: 'Questrial', sans-serif;
+  color: var(--red);
+}
+
+.box {
+  background-color: var(--green);
+  margin: 0rem 1rem 1rem 1rem;
+  padding: 1rem;
+}
+
+.header {
+  color: white;
 }
