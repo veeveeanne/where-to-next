@@ -14,6 +14,10 @@ class Api::V1::ListingsController < ApplicationController
     end
   end
 
+  def index
+    render json: current_user.destinations
+  end
+
   def search
     destinations = Destination.where("name ILIKE ? AND state LIKE ?", params["name"], params["state"])
 

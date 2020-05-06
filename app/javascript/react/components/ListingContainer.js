@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 
+import ListingTile from './ListingTile'
 import DestinationFormTile from './DestinationFormTile'
 import ErrorList from './ErrorList'
 import MatchResultTile from './MatchResultTile'
 import DestinationResultTile from './DestinationResultTile'
 
-const NewListingFormContainer = props => {
+const ListingContainer = props => {
   const [listingForm, setListingForm] = useState({
     name: "",
     state: ""
@@ -16,10 +17,28 @@ const NewListingFormContainer = props => {
   const [shouldAddDestination, setShouldAddDestination] = useState(false)
   const [destination, setDestination] = useState({create: false})
   const [searchDestinations, setSearchDestinations] = useState([])
-  const [addedListing, setAddedListing] = useState({})
   const [listings, setListings] = useState([])
+  const [selectedLine, setSelectedLine] = useState(null)
 
-  const legend = "Add to your bucket list"
+  const legend = "Add to my bucket list"
+
+  useEffect(() => {
+    fetch('/api/v1/listings')
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw(error)
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      setListings(body.destinations)
+    })
+    .catch(error => console.error(`Error in fetch: ${error}`))
+  }, [])
 
   const handleFormChange = (event) => {
     setListingForm({
@@ -27,6 +46,17 @@ const NewListingFormContainer = props => {
       [event.currentTarget.id]: event.currentTarget.value
     })
   }
+
+  let displayListings = listings.map((destination) => {
+    return(
+      <ListingTile
+        key={destination.id}
+        destination={destination}
+        selectedLine={selectedLine}
+        setSelectedLine={setSelectedLine}
+      />
+    )
+  })
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
@@ -108,7 +138,10 @@ const NewListingFormContainer = props => {
       if (body.error) {
         setErrors({destination: body["error"]})
       } else {
-        setAddedListing(body)
+        setListings([
+          listings,
+          body
+        ])
       }
       setDestinationMatches([])
     })
@@ -123,6 +156,8 @@ const NewListingFormContainer = props => {
           key={destination.address}
           destination={destination}
           handleMatchClick={handleMatchClick}
+          selectedLine={selectedLine}
+          setSelectedLine={setSelectedLine}
         />
       )
     })
@@ -175,6 +210,8 @@ const NewListingFormContainer = props => {
           key={destination.place_id}
           destination={destination}
           handleDestinationClick={handleDestinationClick}
+          selectedLine={selectedLine}
+          setSelectedLine={setSelectedLine}
         />
       )
     })
@@ -240,8 +277,12 @@ const NewListingFormContainer = props => {
           </div>
         </div>
       </div>
+      <div className="tile box">
+        <h3 className="header">My Travel Bucket List</h3>
+        {displayListings}
+      </div>
     </div>
   )
 }
 
-export default NewListingFormContainer
+export default ListingContainer

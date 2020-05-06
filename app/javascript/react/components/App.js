@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import DestinationIndexContainer from './DestinationIndexContainer'
 import NewDestinationFormContainer from './NewDestinationFormContainer'
-import NewListingFormContainer from './NewListingFormContainer'
+import ListingContainer from './ListingContainer'
 
 export const App = (props) => {
   return (
@@ -11,7 +11,7 @@ export const App = (props) => {
       <Switch>
         <Route exact path="/destinations" component={DestinationIndexContainer} />
         <Route exact path="/destinations/new" component={NewDestinationFormContainer} />
-        <Route exact path="/listings/new" component={NewListingFormContainer} />
+        <Route exact path="/listings" component={ListingContainer} />
       </Switch>
     </BrowserRouter>
   )
