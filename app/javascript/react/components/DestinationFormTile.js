@@ -2,8 +2,61 @@ import React from 'react'
 
 import ErrorList from './ErrorList'
 
-let states = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
-
+let states = [ "AK - Alaska",
+                "AL - Alabama",
+                "AR - Arkansas",
+                "AZ - Arizona",
+                "CA - California",
+                "CO - Colorado",
+                "CT - Connecticut",
+                "DC - District of Columbia",
+                "DE - Delaware",
+                "FL - Florida",
+                "GA - Georgia",
+                "GU - Guam",
+                "HI - Hawaii",
+                "IA - Iowa",
+                "ID - Idaho",
+                "IL - Illinois",
+                "IN - Indiana",
+                "KS - Kansas",
+                "KY - Kentucky",
+                "LA - Louisiana",
+                "MA - Massachusetts",
+                "MD - Maryland",
+                "ME - Maine",
+                "MI - Michigan",
+                "MN - Minnesota",
+                "MO - Missouri",
+                "MS - Mississippi",
+                "MT - Montana",
+                "NC - North Carolina",
+                "ND - North Dakota",
+                "NE - Nebraska",
+                "NH - New Hampshire",
+                "NJ - New Jersey",
+                "NM - New Mexico",
+                "NV - Nevada",
+                "NY - New York",
+                "OH - Ohio",
+                "OK - Oklahoma",
+                "OR - Oregon",
+                "PA - Pennsylvania",
+                "PR - Puerto Rico",
+                "RI - Rhode Island",
+                "SC - South Carolina",
+                "SD - South Dakota",
+                "TN - Tennessee",
+                "TX - Texas",
+                "UT - Utah",
+                "VA - Virginia",
+                "VI - Virgin Islands",
+                "VT - Vermont",
+                "WA - Washington",
+                "WI - Wisconsin",
+                "WV - West Virginia",
+                "WY - Wyoming"
+              ]
 
 const DestinationFormTile = props => {
   let destinationForm = props.destinationForm
@@ -13,8 +66,13 @@ const DestinationFormTile = props => {
   let errors = props.errors
 
   const stateOptions = [""].concat(states).map(state => {
+    let value = ""
+    if (state !== "") {
+      value = state.split("-")[1].trim()
+    }
+
     return(
-      <option key={state} value={state}>
+      <option key={state} value={value}>
         {state}
       </option>
     )
@@ -23,11 +81,13 @@ const DestinationFormTile = props => {
   return(
     <form onSubmit={handleFormSubmit}>
       <fieldset className="fieldset">
-        <legend>{props.legend}</legend>
+        <legend className="instruction">
+          {props.legend}
+        </legend>
         <div className="grid-container">
           <div className="grid-y">
             <div className="cell small-6 medium-4 large-10">
-              <label htmlFor="name">Name of location:</label>
+              <label htmlFor="name">Name of destination:</label>
               <input
                 name="name"
                 id="name"
@@ -51,7 +111,7 @@ const DestinationFormTile = props => {
               <input
                 className="hollow button secondary"
                 type="submit"
-                value="Add Destination"
+                value="Search for Destination"
               />
               <button
                 type="button"

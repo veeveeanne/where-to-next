@@ -53,6 +53,7 @@ img {
 }
 
 .callout {
+  margin: 50px;
   padding: 50px;
 }
 
@@ -78,5 +79,30 @@ img {
 
 .form {
   padding: 2rem;
-  width: 50%;
+}
+
+.instruction {
+  color: var(--green);
+  font-family: 'Syncopate', sans-serif;
+}
+
+.option {
+  height: 250px;
+  overflow: auto;
+}
+
+.align-self-middle {
+  height: 280px
+}
+
+a:hover {
+  color: var(--green);
+}
+
+.top-bar a:hover {
+  color: var(--red);
+}
+
+.flash {
+  position: fixed;
 }

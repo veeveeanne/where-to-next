@@ -17,8 +17,9 @@ const NewListingFormContainer = props => {
   const [destination, setDestination] = useState({create: false})
   const [searchDestinations, setSearchDestinations] = useState([])
   const [addedListing, setAddedListing] = useState({})
+  const [listings, setListings] = useState([])
 
-  const legend = "Add a new destination to my bucket list"
+  const legend = "Add to your bucket list"
 
   const handleFormChange = (event) => {
     setListingForm({
@@ -29,6 +30,8 @@ const NewListingFormContainer = props => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
+    setDestinationMatches([])
+    setSearchDestinations([])
     if (validForSubmission()) {
       fetch(`/api/v1/listings/search?name=${listingForm.name}&state=${listingForm.state}`)
       .then(response => {
@@ -177,6 +180,11 @@ const NewListingFormContainer = props => {
     })
   }
 
+  let selectionMessage
+  if (matchOptions || destinationOptions) {
+    selectionMessage = "Please click your destination below"
+  }
+
   if (destination.create) {
     fetch('/api/v1/destinations', {
       credentials: "same-origin",
@@ -208,17 +216,30 @@ const NewListingFormContainer = props => {
   }
 
   return(
-    <div className="form">
-      <DestinationFormTile
-        destinationForm = {listingForm}
-        handleFormChange = {handleFormChange}
-        handleFormSubmit = {handleFormSubmit}
-        handleClearForm = {handleClearForm}
-        errors = {errors}
-        legend = {legend}
-      />
-      {matchOptions}
-      {destinationOptions}
+    <div className="grid-container">
+      <div className="grid-x grid-margin-x">
+        <div className="medium-6 column">
+          <div className="form">
+            <DestinationFormTile
+              destinationForm = {listingForm}
+              handleFormChange = {handleFormChange}
+              handleFormSubmit = {handleFormSubmit}
+              handleClearForm = {handleClearForm}
+              errors = {errors}
+              legend = {legend}
+            />
+          </div>
+        </div>
+        <div className="medium-6 column align-self-middle">
+          <h6 className="instruction">
+            {selectionMessage}
+          </h6>
+          <div className="option">
+            {matchOptions}
+            {destinationOptions}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

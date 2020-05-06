@@ -15,7 +15,7 @@ class Api::V1::ListingsController < ApplicationController
   end
 
   def search
-    destinations = Destination.where("name ILIKE ? AND state LIKE ?", "%" + params["name"] + "%", params["state"])
+    destinations = Destination.where("name ILIKE ? AND state LIKE ?", params["name"], params["state"])
 
     render json: destinations
   end
