@@ -23,7 +23,7 @@ div {
   color: white;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h5, h6 {
   font-family: 'Syncopate', sans-serif;
   text-align: center;
   color: var(--dark-green);
@@ -42,12 +42,13 @@ h1 a {
 }
 
 .callout {
-  margin: 50px;
-  padding: 50px;
+  margin: 3rem;
+  padding: 3rem;
 }
 
 .field {
   font-family: 'Questrial', sans-serif;
+  color: var(--green);
 }
 
 .welcome {
@@ -114,4 +115,35 @@ a:hover {
 
 .header {
   color: white;
+}
+
+i {
+  margin: 5px;
+}
+
+.checkbox {
+  display: inline-block;
+  color: var(--green)
+}
+
+.checkbox-text {
+  position: relative;
+  bottom: 9px;
+}
+
+.text-center {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.back {
+  margin-left: 3rem;
+}
+
+.delete {
+  float: right
+}
+
+.clear {
+  clear: right;
 }

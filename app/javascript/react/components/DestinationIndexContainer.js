@@ -36,7 +36,7 @@ const DestinationIndexContainer = props => {
       <ul>
         {destinationsList}
       </ul>
-      <Link to='/destinations/new'>
+      <Link to="/destinations/new">
         <button type="button" className="button">
           Add a new destination
         </button>
