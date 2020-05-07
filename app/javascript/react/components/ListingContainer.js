@@ -139,8 +139,8 @@ const ListingContainer = props => {
         setErrors({destination: body["error"]})
       } else {
         setListings([
-          listings,
-          body
+          ...listings,
+          body.destination
         ])
       }
       setDestinationMatches([])

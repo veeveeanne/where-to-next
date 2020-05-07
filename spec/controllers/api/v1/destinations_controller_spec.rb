@@ -69,7 +69,7 @@ RSpec.describe Api::V1::DestinationsController, type: :controller do
         returned_json = JSON.parse(response.body)
 
         expect(returned_json.length).to eq 1
-        expect(returned_json["destination"].length).to eq 6
+        expect(returned_json["destination"].length).to eq 7
         expect(returned_json["destination"]["id"]).to eq first_destination.id
         expect(returned_json["destination"]["name"]).to eq first_destination.name
         expect(returned_json["destination"]["state"]).to eq first_destination.state
@@ -93,7 +93,7 @@ RSpec.describe Api::V1::DestinationsController, type: :controller do
         returned_json = JSON.parse(response.body)
 
         expect(returned_json.length).to eq 1
-        expect(returned_json["destination"].length).to eq 6
+        expect(returned_json["destination"].length).to eq 7
         expect(returned_json["destination"]["name"]).to eq new_params[:name]
         expect(returned_json["destination"]["state"]).to eq new_params[:state]
         expect(returned_json["destination"]["address"]).to eq new_params[:address]

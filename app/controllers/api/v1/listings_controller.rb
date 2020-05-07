@@ -8,7 +8,7 @@ class Api::V1::ListingsController < ApplicationController
     listing.save
 
     if listing.save
-      render json: listing
+      render json: listing.destination
     else
       render json: { error: listing.errors.messages[:destination_id].to_sentence }
     end
@@ -16,6 +16,25 @@ class Api::V1::ListingsController < ApplicationController
 
   def index
     render json: current_user.destinations
+  end
+
+  def show
+    render json: Listing.find(params["id"]).destination
+  end
+
+  def update
+    listing = Listing.find(params["id"])
+    listing.visited = params["visited"]
+    listing.save
+
+    render json: listing
+  end
+
+  def destroy
+    listing = Listing.find(params["id"])
+    listing.delete
+
+    render json: current_user.listings
   end
 
   def search

@@ -7,6 +7,7 @@
   <%= stylesheet_link_tag 'application', 'https://fonts.googleapis.com/css?family=Questrial' %>
   <%= stylesheet_link_tag 'application', 'https://fonts.googleapis.com/css?family=Syncopate' %>
   <%= stylesheet_link_tag 'application', 'https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap' %>
+  <%= stylesheet_link_tag 'application', "https://use.fontawesome.com/releases/v5.11.2/css/all.css" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -16,7 +17,7 @@
     <div class="top-bar-right">
       <div class="button-group">
         <%- if current_user -%>
-            <%= link_to 'My Account', root_path, class: "button" %>
+            <%= link_to 'My Account', listings_path, class: "button" %>
             <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "button" %>
         <%- else -%>
           <%= link_to 'Sign Up', new_user_registration_path, class: "button" %>

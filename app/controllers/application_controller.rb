@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :location])
   end
 
-  def after_sign_in_path_for(destinations)
-    destinations_path
+  def after_sign_in_path_for(listings)
+    listings_path
   end
 end
