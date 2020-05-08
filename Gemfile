@@ -56,3 +56,4 @@ gem 'webpacker', '~> 3.3'
 gem 'faraday'
 gem 'active_model_serializers'
 gem 'vcr', group: [:development, :test]
+gem 'amadeus'

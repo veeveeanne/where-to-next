@@ -96,7 +96,7 @@ const UpdateListing = props => {
       <div>
         <div className="callout">
           <h1>{destination.name}</h1>
-          <div class="column text-center">
+          <div className="column text-center">
             <span className="checkbox">
               <i
                 className={iconName}
