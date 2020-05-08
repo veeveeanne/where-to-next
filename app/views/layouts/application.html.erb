@@ -13,15 +13,15 @@
 <body>
 
   <nav class="top-bar">
-    <h1><a href="/">WhereToNext</a></h1>
+    <h1><a href="/">Where<span class="brand-text">To</span>Next</a></h1>
     <div class="top-bar-right">
       <div class="button-group">
         <%- if current_user -%>
-            <%= link_to 'My Account', listings_path, class: "button" %>
-            <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "button" %>
+          <%= link_to 'My Account', listings_path, class: "button" %>
+          <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "button" %>
         <%- else -%>
-          <%= link_to 'Sign Up', new_user_registration_path, class: "button" %>
           <%= link_to 'Sign In', new_user_session_path, class: "button" %>
+          <%= link_to 'Sign Up', new_user_registration_path, class: "button" %>
         <%- end -%>
       </div>
     </div>
@@ -48,4 +48,10 @@
 
   <%= yield :extra_footer %>
 </body>
+<footer>
+  <span class="footer"><h5 class="footer">Created by Vivian Wang</h5></span>
+  <span class="footer right"><a href="https://www.linkedin.com/in/vivian-e-wang/" class="footer-link">LinkedIn</a></span>
+  <span class="footer right"><h6 class="footer">|</h6></span>
+  <span class="footer right"><a href="https://github.com/veeveeanne" class="footer-link">GitHub</a></span>
+</footer>
 </html>

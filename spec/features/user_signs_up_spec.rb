@@ -18,7 +18,6 @@ feature 'user registers', %Q{
     fill_in 'Email', with: 'john@example.com'
     fill_in 'First name', with: 'John'
     fill_in 'Last name', with: 'Doe'
-    fill_in 'Location', with: 'City'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'password'
 
@@ -45,7 +44,6 @@ feature 'user registers', %Q{
     fill_in 'Email', with: 'john@example.com'
     fill_in 'First name', with: 'John'
     fill_in 'Last name', with: 'Doe'
-    fill_in 'Location', with: 'City'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'PASSWORD'
     click_button 'Sign up'
@@ -54,7 +52,6 @@ feature 'user registers', %Q{
     expect(find_field('Email').value).to eq('john@example.com')
     expect(find_field('First name').value).to eq('John')
     expect(find_field('Last name').value).to eq('Doe')
-    expect(find_field('Location').value).to eq('City')
     expect(page).to_not have_content('My Account')
     expect(page).to_not have_content('Sign Out')
   end
@@ -65,7 +62,6 @@ feature 'user registers', %Q{
     fill_in 'Email', with: 'john'
     fill_in 'First name', with: 'John'
     fill_in 'Last name', with: 'Doe'
-    fill_in 'Location', with: 'City'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'password'
 
@@ -75,7 +71,6 @@ feature 'user registers', %Q{
     expect(find_field('Email').value).to eq('john')
     expect(find_field('First name').value).to eq('John')
     expect(find_field('Last name').value).to eq('Doe')
-    expect(find_field('Location').value).to eq('City')
     expect(page).to_not have_content('Sign Out')
   end
 end

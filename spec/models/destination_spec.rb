@@ -10,6 +10,7 @@ RSpec.describe Destination, type: :model do
   end
 
   describe 'associations' do
+    it { should belong_to(:airport).optional }
     it { should have_many(:listings) }
     it { should have_many(:users).through(:listings) }
   end

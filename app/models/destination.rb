@@ -1,4 +1,5 @@
 class Destination < ApplicationRecord
+  belongs_to :airport, optional: true
   has_many :listings
   has_many :users, through: :listings
 

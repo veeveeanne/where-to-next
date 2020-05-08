@@ -15,14 +15,6 @@ div {
   color: var(--dark-green);
 }
 
-.button {
-  background-color: var(--red);
-}
-
-.button a {
-  color: white;
-}
-
 h1, h2, h3, h5, h6 {
   font-family: 'Syncopate', sans-serif;
   text-align: center;
@@ -53,7 +45,13 @@ h1 a {
 
 .welcome {
   margin: auto;
-  padding: 200px 50px 150px 50px;
+  padding: 130px 50px 150px 50px;
+  background-image: url("herocropped.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(255,255,255,0.6);
+  background-blend-mode: lighten;
 }
 
 .cta-secondary {
@@ -63,8 +61,8 @@ h1 a {
 .cta-primary {
   color: var(--red);
   font-weight: 700;
-  font-style: italic;
-  padding-top: 50px;
+  padding-top: 40px;
+  margin-bottom: 50px;
 }
 
 .form {
@@ -87,10 +85,6 @@ h1 a {
 
 a:hover {
   color: var(--green);
-}
-
-.top-bar a:hover {
-  color: var(--red);
 }
 
 .flash {
@@ -146,4 +140,62 @@ i {
 
 .clear {
   clear: right;
+}
+
+.brand {
+  color: var(--green)
+}
+
+.brand-middle {
+  color: #2599A6;
+}
+
+.brand-text {
+  color: #F9929C;
+}
+
+.button.large.expanded {
+  font-size: 90%;
+  border-radius: 5px;
+  width: 85%;
+  margin: auto;
+  opacity: 0.8;
+}
+
+.context {
+  font-family: 'Questrial', sans-serif;
+  font-size: 200%;
+}
+
+footer {
+  background-color: var(--blue);
+  padding-bottom: 5px;
+  padding-top: 3px;
+}
+
+.footer {
+  color: var(--light-green);
+  font-family: 'Questrial', sans-serif;
+  padding: 5px;
+}
+
+span .footer {
+  display: inline;
+}
+
+.footer-link {
+  color: red;
+}
+
+.spacer {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.footer-link {
+  color: var(--light-green);
+}
+
+.right {
+  float: right;
 }

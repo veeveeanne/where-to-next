@@ -19,6 +19,7 @@ const ListingContainer = props => {
   const [searchDestinations, setSearchDestinations] = useState([])
   const [listings, setListings] = useState([])
   const [selectedLine, setSelectedLine] = useState(null)
+  const [shouldAddAirport, setShouldAddAirport] = useState(false)
 
   const legend = "Add to my bucket list"
 
@@ -244,10 +245,41 @@ const ListingContainer = props => {
     .then(response => response.json())
     .then(body => {
       setDestination({
-        create: false
+        ...body,
+        create: false,
       })
-      handleMatchClick({id: body.destination.id})
       setSearchDestinations([])
+      handleMatchClick({id: body.destination.id})
+      setShouldAddAirport(true)
+    })
+    .catch(error => console.error(`Error in fetch: ${error}`))
+  }
+
+  if (shouldAddAirport) {
+    fetch('/api/v1/airports', {
+      credentials: "same-origin",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(destination)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw(error)
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      setShouldAddAirport(false)
+      if (body.error) {
+        setErrors({destination: body["error"]})
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
