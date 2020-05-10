@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
 import ListingTile from './ListingTile'
@@ -14,12 +15,10 @@ const ListingContainer = props => {
   })
   const [errors, setErrors] = useState({})
   const [destinationMatches, setDestinationMatches] = useState([])
-  const [shouldAddDestination, setShouldAddDestination] = useState(false)
-  const [destination, setDestination] = useState({create: false})
+  const [destination, setDestination] = useState({})
   const [searchDestinations, setSearchDestinations] = useState([])
   const [listings, setListings] = useState([])
   const [selectedLine, setSelectedLine] = useState(null)
-  const [shouldAddAirport, setShouldAddAirport] = useState(false)
 
   const legend = "Add to my bucket list"
 
@@ -78,12 +77,8 @@ const ListingContainer = props => {
       .then(body => {
         if (body.destinations.length > 0) {
           setDestinationMatches(body.destinations)
-          setListingForm({
-            name: "",
-            state: ""
-          })
         } else {
-          setShouldAddDestination(true)
+          addDestination()
         }
       })
       .catch(error => console.error(`Error in fetch: ${error}`))
@@ -144,6 +139,10 @@ const ListingContainer = props => {
           body.destination
         ])
       }
+      setListingForm({
+        name: "",
+        state: ""
+      })
       setDestinationMatches([])
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
@@ -164,7 +163,7 @@ const ListingContainer = props => {
     })
   }
 
-  if (shouldAddDestination) {
+  const addDestination = () => {
     let query = listingForm.name.concat(" ", listingForm.state)
     fetch(`/api/v1/destinations/search?query=${query}`)
     .then(response => {
@@ -178,29 +177,25 @@ const ListingContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setShouldAddDestination(false)
       setSearchDestinations(body.results)
       setDestination({
         ...destination,
         state: listingForm.state
-      })
-      setListingForm({
-        name: "",
-        state: ""
       })
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
   const handleDestinationClick = (payload) => {
-    setDestination({
+    let destinationHolder = {
       ...destination,
       name: payload.name,
       address: payload.address,
       latitude: payload.latitude,
-      longitude: payload.longitude,
-      create: true
-    })
+      longitude: payload.longitude
+    }
+    setDestination(destinationHolder)
+    createDestination(destinationHolder)
   }
 
   let destinationOptions
@@ -223,7 +218,7 @@ const ListingContainer = props => {
     selectionMessage = "Please click your destination below"
   }
 
-  if (destination.create) {
+  const createDestination = (destinationHolder) => {
     fetch('/api/v1/destinations', {
       credentials: "same-origin",
       method: "POST",
@@ -231,7 +226,7 @@ const ListingContainer = props => {
         "Content-type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify(destination)
+      body: JSON.stringify(destinationHolder)
     })
     .then(response => {
       if (response.ok) {
@@ -244,18 +239,19 @@ const ListingContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setDestination({
-        ...body,
-        create: false,
+      setDestination(body)
+      setListingForm({
+        name: "",
+        state: ""
       })
       setSearchDestinations([])
       handleMatchClick({id: body.destination.id})
-      setShouldAddAirport(true)
+      addAirport(body)
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
-  if (shouldAddAirport) {
+  const addAirport = (destinationHolder) => {
     fetch('/api/v1/airports', {
       credentials: "same-origin",
       method: "POST",
@@ -263,7 +259,7 @@ const ListingContainer = props => {
         "Content-type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify(destination)
+      body: JSON.stringify(destinationHolder)
     })
     .then(response => {
       if (response.ok) {
@@ -276,7 +272,6 @@ const ListingContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setShouldAddAirport(false)
       if (body.error) {
         setErrors({destination: body["error"]})
       }
@@ -312,6 +307,11 @@ const ListingContainer = props => {
       <div className="tile box">
         <h3 className="header">My Travel Bucket List</h3>
         {displayListings}
+      </div>
+      <div>
+        <Link to="/travel">
+          I'm ready to travel somewhere
+        </Link>
       </div>
     </div>
   )

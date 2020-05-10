@@ -19,7 +19,7 @@ const DestinationResultTile = props => {
     classValue = "text-selected"
   }
 
-  const handleClick = (event) => {
+  const handleClick = () => {
     props.handleDestinationClick({
       name: name,
       address: address,

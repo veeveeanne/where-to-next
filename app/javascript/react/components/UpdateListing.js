@@ -88,7 +88,7 @@ const UpdateListing = props => {
   }
 
   if (shouldRedirect) {
-    return (
+    return(
       <Redirect to="/listings" />
     )
   } else {

@@ -5,7 +5,6 @@ class Api::V1::ListingsController < ApplicationController
     listing = Listing.new
     listing.destination_id = params["id"]
     listing.user = current_user
-    listing.save
 
     if listing.save
       render json: listing.destination
