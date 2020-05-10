@@ -9,17 +9,14 @@ const TravelPlanContainer = props => {
   const [airportForm, setAirportForm] = useState({
     keyword: ""
   })
-
   const [travelForm, setTravelForm] = useState({
     airport_code: "",
     departure_date: "",
     return_date: ""
   })
-
   const [haveIataCode, setHaveIataCode] = useState(false)
   const [errors, setErrors] = useState({})
   const [airportMatches, setAirportMatches] = useState([])
-  const [shouldSearchAirports, setShouldSearchAirports] = useState(false)
   const [selectedLine, setSelectedLine] = useState(null)
   const [recommendedCity, setRecommendedCity] = useState({})
 
@@ -53,7 +50,7 @@ const TravelPlanContainer = props => {
       .then(response => response.json())
       .then(body => {
         if (body.airports) {
-          setShouldSearchAirports(true)
+          searchAirports()
         } else {
           setAirportMatches(body)
           setAirportForm({
@@ -182,7 +179,7 @@ const TravelPlanContainer = props => {
     selectionMessage = "Please click your airport below"
   }
 
-  if (shouldSearchAirports) {
+  const searchAirports = () => {
     fetch(`/api/v1/airports/explore?keyword=${airportForm.keyword}`)
     .then(response => {
       if (response.ok) {
@@ -198,7 +195,6 @@ const TravelPlanContainer = props => {
       if (body.errors) {
         setErrors({airport: body["error"]})
       } else {
-        setShouldSearchAirports(false)
         setAirportMatches(body)
       }
     })

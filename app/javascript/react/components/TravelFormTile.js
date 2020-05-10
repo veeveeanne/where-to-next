@@ -33,14 +33,8 @@ const TravelFormTile = props => {
               <input
                 className="hollow button secondary"
                 type="submit"
-                value="Enter my travel plans"
+                value="Enter my travel dates"
               />
-              <button
-                type="button"
-                className="hollow button secondary"
-              >
-                Clear Form
-              </button>
             </div>
           </div>
         </div>
