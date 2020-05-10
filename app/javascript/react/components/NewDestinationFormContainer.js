@@ -86,9 +86,9 @@ const NewDestinationFormContainer = props => {
     destinationOptions = searchDestinations.map(destination => {
       return(
         <DestinationResultTile
-          key={destination.place_id}
-          destination={destination}
-          handleDestinationClick={handleDestinationClick}
+          key = {destination.place_id}
+          destination = {destination}
+          handleDestinationClick = {handleDestinationClick}
         />
       )
     })

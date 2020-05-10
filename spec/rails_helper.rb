@@ -63,14 +63,17 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   VCR.configure do |config|
-  config.allow_http_connections_when_no_cassette = false
-  config.cassette_library_dir = File.expand_path('cassettes', __dir__)
-  config.hook_into :faraday
-  config.ignore_request { ENV['DISABLE_VCR'] }
-  config.ignore_localhost = true
-  config.default_cassette_options = {
-    record: :new_episodes
-  }
-  config.filter_sensitive_data('<PLACES_API_KEY>') { ENV["PLACES_API_KEY"] }
+    config.allow_http_connections_when_no_cassette = false
+    config.cassette_library_dir = File.expand_path('cassettes', __dir__)
+    config.hook_into :faraday
+    config.ignore_request { ENV['DISABLE_VCR'] }
+    config.ignore_localhost = true
+    config.default_cassette_options = {
+      record: :new_episodes
+    }
+    config.filter_sensitive_data('<PLACES_API_KEY>') { ENV["PLACES_API_KEY"] }
+    config.filter_sensitive_data('<AMADEUS_CLIENT_ID>') { ENV["AMADEUS_CLIENT_ID"] }
+    config.filter_sensitive_data('<AMADEUS_CLIENT_SECRET>') { ENV["AMADEUS_CLIENT_SECRET"] }
+    config.filter_sensitive_data('<EMAIL>') { 'vivian.emmenuel.wang@gmail.com' }
   end
 end

@@ -5,6 +5,7 @@ import DestinationIndexContainer from './DestinationIndexContainer'
 import NewDestinationFormContainer from './NewDestinationFormContainer'
 import ListingContainer from './ListingContainer'
 import UpdateListing from './UpdateListing'
+import TravelPlanContainer from './TravelPlanContainer'
 
 export const App = (props) => {
   return (
@@ -14,6 +15,7 @@ export const App = (props) => {
         <Route exact path="/destinations/new" component={NewDestinationFormContainer} />
         <Route exact path="/listings" component={ListingContainer} />
         <Route exact path="/listings/:id/update" component={UpdateListing} />
+        <Route exact path="/travel" component={TravelPlanContainer} />
       </Switch>
     </BrowserRouter>
   )

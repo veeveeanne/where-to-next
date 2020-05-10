@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_07_173933) do
+ActiveRecord::Schema.define(version: 2020_05_08_221255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,19 @@ ActiveRecord::Schema.define(version: 2020_05_07_173933) do
     t.decimal "longitude", precision: 13, scale: 10, null: false
     t.string "address", null: false
     t.index ["airport_id"], name: "index_destinations_on_airport_id"
+  end
+
+  create_table "flights", force: :cascade do |t|
+    t.string "departure_iata", null: false
+    t.string "destination_iata", null: false
+    t.string "departure_date", null: false
+    t.string "return_date", null: false
+    t.float "average_price", null: false
+    t.boolean "recommended", default: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_flights_on_user_id"
   end
 
   create_table "listings", force: :cascade do |t|
