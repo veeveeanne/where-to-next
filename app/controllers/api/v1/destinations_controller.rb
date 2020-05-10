@@ -12,7 +12,6 @@ class Api::V1::DestinationsController < ApplicationController
       destination.latitude = params["latitude"]
       destination.longitude = params["longitude"]
     end
-
     render json: destination
   end
 
@@ -28,7 +27,7 @@ class Api::V1::DestinationsController < ApplicationController
     api_response = Faraday.get(url)
     parsed_response = JSON.parse(api_response.body)
     results = parsed_response["results"]
-
+    
     render json: {results: results}
   end
 end

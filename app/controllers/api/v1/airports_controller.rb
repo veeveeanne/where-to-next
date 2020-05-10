@@ -7,8 +7,6 @@ class Api::V1::AirportsController < ApplicationController
 
     airport_response = AirportFetcher.request(latitude, longitude)
 
-    airport = Airport.find_by(iata_code: airport_response[:iata_code])
-    
     airport = Airport.where(iata_code: airport_response[:iata_code]).first_or_create do |airport|
       airport.name = airport_response[:name]
       airport.iata_code = airport_response[:iata_code]
@@ -20,7 +18,6 @@ class Api::V1::AirportsController < ApplicationController
     destination.airport = airport
 
     if destination.save
-      binding.pry
       render json: airport
     else
       render json: { error: "could not be associated with an airport" }
