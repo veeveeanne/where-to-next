@@ -7,18 +7,19 @@ class Api::V1::ListingsController < ApplicationController
     listing.user = current_user
 
     if listing.save
-      render json: listing.destination
+      render json: listing
     else
       render json: { error: listing.errors.messages[:destination_id].to_sentence }
     end
   end
 
   def index
-    render json: current_user.destinations
+    listings = Listing.where(user: current_user)
+    render json: listings
   end
 
   def show
-    render json: Listing.find(params["id"]).destination
+    render json: Listing.find(params["id"])
   end
 
   def update

@@ -28,6 +28,19 @@ const DestinationResultTile = props => {
     })
   }
 
+  let display_array = []
+  let address_array = address.split(", ")
+  address_array.forEach((element) => {
+    if (element !== "United States" && element !== "USA") {
+      display_array.push(element)
+    }
+  })
+
+  let addressDisplay = ""
+  if (display_array.length > 0) {
+    addressDisplay = display_array.join(", ")
+  }
+
   return(
     <div
       className={classValue}
@@ -35,7 +48,7 @@ const DestinationResultTile = props => {
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
-      {name} - {address}
+      {name} - {addressDisplay}
     </div>
   )
 }

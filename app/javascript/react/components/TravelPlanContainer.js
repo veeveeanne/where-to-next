@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
 import TravelFormTile from './TravelFormTile'
 import AirportFormTile from './AirportFormTile'
 import AirportMatchTile from './AirportMatchTile'
+import Recommendation from './Recommendation'
 
 const TravelPlanContainer = props => {
   const [airportForm, setAirportForm] = useState({
@@ -19,6 +21,25 @@ const TravelPlanContainer = props => {
   const [airportMatches, setAirportMatches] = useState([])
   const [selectedLine, setSelectedLine] = useState(null)
   const [recommendedCity, setRecommendedCity] = useState({})
+  const [recommendation, setRecommendation] = useState({})
+
+  useEffect(() => {
+    fetch('/api/v1/flights')
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`
+        let error = new Error(errorMessage)
+        throw(error)
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      setRecommendation(body.flight)
+    })
+    .catch(error => console.error(`Error in fetch: ${error}`))
+  }, [])
 
   const handleTravelFormChange = (event) => {
     setTravelForm({
@@ -36,6 +57,7 @@ const TravelPlanContainer = props => {
 
   const handleAirportFormSubmit = (event) => {
     event.preventDefault()
+    setAirportMatches([])
     if (airportValidForSubmission()) {
       fetch(`/api/v1/airports/search?keyword=${airportForm.keyword}`)
       .then(response => {
@@ -225,27 +247,32 @@ const TravelPlanContainer = props => {
 
   if (_.isEmpty(recommendedCity)) {
     return(
-      <div>
-        <div className="form">
+      <div className="travel">
+        <div className="form-spacer">
           <h3>I want a recommendation for my next trip</h3>
-          {airport_info}
+          <div className="form">
+            {airport_info}
+          </div>
+          <div className="form">
+            <h6 className="instruction">
+              {selectionMessage}
+            </h6>
+            {airportMatchesDisplay}
+          </div>
+          <div className="form">
+            {travel_dates}
+          </div>
         </div>
-        <div className="form">
-          <h6 className="instruction">
-            {selectionMessage}
-          </h6>
-          {airportMatchesDisplay}
-        </div>
-        <div className="form">
-          {travel_dates}
+        <div className="spacer">
+          <Link to="/listings" className="button hollow secondary">Back to my bucket list</Link>
         </div>
       </div>
     )
   } else {
     return(
-      <div className="callout">
-        <h1>You should travel to: {recommendedCity.city}</h1>
-      </div>
+      <Recommendation
+        city={recommendedCity.city}
+      />
     )
   }
 }

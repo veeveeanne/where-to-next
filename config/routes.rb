@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/listings', to: 'static_pages#index'
   get '/listings/:id/update', to: 'static_pages#index'
   get '/travel', to: 'static_pages#index'
+  get '/travel/recommendation', to: 'static_pages#index'
 
   namespace :api do
     namespace :v1 do
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
       get 'airports/search' => 'airports#search'
       get 'airports/explore' => 'airports#explore'
       resources :airports, only: [:create]
-      resources :flights, only: [:create]
+      resources :flights, only: [:create, :index]
     end
   end
 end

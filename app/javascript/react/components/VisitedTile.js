@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const ListingTile = props => {
+const VisitedTile = props => {
   const id = props.destination.destination.id.toString()
   const name = props.destination.destination.name
   const state = props.destination.destination.state
@@ -40,4 +40,4 @@ const ListingTile = props => {
   )
 }
 
-export default ListingTile
+export default VisitedTile
