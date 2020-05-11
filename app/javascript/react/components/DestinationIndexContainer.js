@@ -31,16 +31,18 @@ const DestinationIndexContainer = props => {
   })
 
   return(
-    <div className="callout">
-      <h1>Popular Destinations</h1>
-      <ul>
-        {destinationsList}
-      </ul>
-      <Link to="/destinations/new">
-        <button type="button" className="button">
-          Add a new destination
-        </button>
-      </Link>
+    <div className="callout-container">
+      <div className="callout">
+        <h1>Popular Destinations</h1>
+        <ul>
+          {destinationsList}
+        </ul>
+        <Link to="/destinations/new">
+          <button type="button" className="button">
+            Add a new destination
+          </button>
+        </Link>
+      </div>
     </div>
   )
 }

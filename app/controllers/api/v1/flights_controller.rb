@@ -42,7 +42,7 @@ class Api::V1::FlightsController < ApplicationController
 
       flight_options["#{key}"] = average
     end
-    
+
     cheapest_flight = flight_options.values.sort[0]
     suggested_destination = flight_options.key(cheapest_flight)
     suggested_flight = Flight.find_by(destination_iata: suggested_destination, average_price: cheapest_flight)
@@ -51,5 +51,15 @@ class Api::V1::FlightsController < ApplicationController
     airport = Airport.find_by(iata_code: suggested_destination)
 
     render json: airport
+  end
+
+  def index
+    flight = Flight.where(user: current_user, recommended: true).last
+
+    if !flight
+      render json: { flight: {} }
+    else
+      render json: flight
+    end
   end
 end

@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
 import ListingTile from './ListingTile'
+import VisitedTile from './VisitedTile'
 import DestinationFormTile from './DestinationFormTile'
 import ErrorList from './ErrorList'
 import MatchResultTile from './MatchResultTile'
 import DestinationResultTile from './DestinationResultTile'
+import fetchListings from '../services/FetchListings'
+import searchListings from '../services/SearchListings'
 
 const ListingContainer = props => {
   const [listingForm, setListingForm] = useState({
@@ -23,21 +26,10 @@ const ListingContainer = props => {
   const legend = "Add to my bucket list"
 
   useEffect(() => {
-    fetch('/api/v1/listings')
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    fetchListings()
     .then(body => {
-      setListings(body.destinations)
+      setListings(body.listings)
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }, [])
 
   const handleFormChange = (event) => {
@@ -47,33 +39,46 @@ const ListingContainer = props => {
     })
   }
 
-  let displayListings = listings.map((destination) => {
-    return(
-      <ListingTile
-        key={destination.id}
-        destination={destination}
-        selectedLine={selectedLine}
-        setSelectedLine={setSelectedLine}
-      />
-    )
+  let displayListings = []
+  let visitedListings = []
+  listings.forEach((destination) => {
+    if (!destination.visited) {
+      displayListings.push(
+        <ListingTile
+          key={destination.id}
+          destination={destination}
+          selectedLine={selectedLine}
+          setSelectedLine={setSelectedLine}
+        />
+      )
+    } else {
+      visitedListings.push(
+        <VisitedTile
+          key={destination.id}
+          destination={destination}
+          selectedLine={selectedLine}
+          setSelectedLine={setSelectedLine}
+        />
+      )
+    }
   })
+
+
+  let completedTripsDisplay
+  if (visitedListings.length > 0) {
+    completedTripsDisplay =
+    <div className="tile green-box">
+      <h3 className="header">Completed Trips</h3>
+      {visitedListings}
+    </div>
+  }
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
     setDestinationMatches([])
     setSearchDestinations([])
     if (validForSubmission()) {
-      fetch(`/api/v1/listings/search?name=${listingForm.name}&state=${listingForm.state}`)
-      .then(response => {
-        if (response.ok) {
-          return response
-        } else {
-          let errorMessage = `${response.status} (${response.statusText})`
-          let error = new Error(errorMessage)
-          throw(error)
-        }
-      })
-      .then(response => response.json())
+      searchListings(listingForm)
       .then(body => {
         if (body.destinations.length > 0) {
           setDestinationMatches(body.destinations)
@@ -81,7 +86,6 @@ const ListingContainer = props => {
           addDestination()
         }
       })
-      .catch(error => console.error(`Error in fetch: ${error}`))
     }
   }
 
@@ -136,7 +140,7 @@ const ListingContainer = props => {
       } else {
         setListings([
           ...listings,
-          body.destination
+          body.listing
         ])
       }
       setListingForm({
@@ -214,8 +218,10 @@ const ListingContainer = props => {
   }
 
   let selectionMessage
+  let classValue = ""
   if (matchOptions || destinationOptions) {
     selectionMessage = "Please click your destination below"
+    classValue = "option"
   }
 
   const createDestination = (destinationHolder) => {
@@ -280,38 +286,41 @@ const ListingContainer = props => {
   }
 
   return(
-    <div className="grid-container">
-      <div className="grid-x grid-margin-x">
-        <div className="medium-6 column">
-          <div className="form">
-            <DestinationFormTile
-              destinationForm = {listingForm}
-              handleFormChange = {handleFormChange}
-              handleFormSubmit = {handleFormSubmit}
-              handleClearForm = {handleClearForm}
-              errors = {errors}
-              legend = {legend}
-            />
+    <div className="page">
+      <div className="grid-container">
+        <div className="grid-x grid-margin-x">
+          <div className="medium-6 column">
+            <div className="form">
+              <DestinationFormTile
+                destinationForm = {listingForm}
+                handleFormChange = {handleFormChange}
+                handleFormSubmit = {handleFormSubmit}
+                handleClearForm = {handleClearForm}
+                errors = {errors}
+                legend = {legend}
+              />
+            </div>
+          </div>
+          <div className="medium-6 column align-self-middle">
+            <h6 className="instruction">
+              {selectionMessage}
+            </h6>
+            <div className={classValue}>
+              {matchOptions}
+              {destinationOptions}
+            </div>
           </div>
         </div>
-        <div className="medium-6 column align-self-middle">
-          <h6 className="instruction">
-            {selectionMessage}
-          </h6>
-          <div className="option">
-            {matchOptions}
-            {destinationOptions}
-          </div>
+        <div className="tile green-box">
+          <h3 className="header">My Travel Bucket List</h3>
+          {displayListings}
         </div>
-      </div>
-      <div className="tile box">
-        <h3 className="header">My Travel Bucket List</h3>
-        {displayListings}
-      </div>
-      <div>
-        <Link to="/travel">
-          I'm ready to travel somewhere
-        </Link>
+        {completedTripsDisplay}
+        <div className="tile">
+          <Link to="/travel" className="button expanded">
+            <h3 className="button-text">I'm ready to travel somewhere</h3>
+          </Link>
+        </div>
       </div>
     </div>
   )
