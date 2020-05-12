@@ -14,15 +14,12 @@ class Api::V1::AirportsController < ApplicationController
       airport.longitude = airport_response[:longitude]
       airport.city = airport_response[:city]
     end
-    
+
     destination = Destination.find(params["destination"]["id"])
     destination.airport = airport
+    destination.save
 
-    if destination.save
-      render json: airport
-    else
-      render json: { error: "could not be associated with an airport" }
-    end
+    render json: airport
   end
 
   def search

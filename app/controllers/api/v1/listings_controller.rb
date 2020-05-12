@@ -9,7 +9,7 @@ class Api::V1::ListingsController < ApplicationController
     if listing.save
       render json: listing
     else
-      render json: { error: listing.errors.messages[:destination_id].to_sentence }
+      render json: { error: "could not be saved. Please try again" }
     end
   end
 

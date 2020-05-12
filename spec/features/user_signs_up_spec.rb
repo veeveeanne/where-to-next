@@ -24,7 +24,7 @@ feature 'user registers', %Q{
     click_button 'Sign up'
 
     expect(page).to have_content('Welcome! You have signed up successfully.')
-    expect(page).to have_content('My Account')
+    expect(page).to have_content('My Travel List')
     expect(page).to have_content('Sign Out')
   end
 

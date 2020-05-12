@@ -34,7 +34,8 @@ h1 a {
 }
 
 .title {
-  color: var(--red)
+  color: var(--red);
+  margin-left: 5px;
 }
 
 .callout {
@@ -47,6 +48,17 @@ h1 a {
   background-image: image-url("border.jpeg");
   background-size: cover;
   background-position: top;
+  background-repeat: no-repeat;
+  background-color: rgba(255,255,255,0.8);
+  background-blend-mode: lighten;
+  height: 650px;
+}
+
+.callout-container-travel {
+  padding: 3rem;
+  background-image: image-url("mint.jpeg");
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   background-color: rgba(255,255,255,0.8);
   background-blend-mode: lighten;
@@ -181,14 +193,14 @@ i {
 
 .button.large.expanded {
   font-size: 90%;
-  border-radius: 5px;
+  border-radius: 15px;
   width: 85%;
   margin: auto;
   opacity: 0.9;
 }
 
 .button.expanded {
-  border-radius: 5px;
+  border-radius: 15px;
   opacity: 0.8;
 }
 
@@ -199,8 +211,8 @@ i {
 
 footer {
   background-color: var(--blue);
-  padding-bottom: 5px;
-  padding-top: 3px;
+  padding-bottom: 15px;
+  padding-top: 13px;
 }
 
 .footer {
@@ -263,7 +275,7 @@ label {
   float: right;
 }
 
-.address {
+.detail-text {
   font-family: 'Questrial', sans-serif;
   text-align: center;
   color: var(--dark-green)
@@ -272,4 +284,12 @@ label {
 .listing {
   width: fit-content;
   margin: auto;
+}
+
+.callout.rec {
+  margin: 3rem;
+}
+
+.button-group {
+  margin-right: 5px;
 }
