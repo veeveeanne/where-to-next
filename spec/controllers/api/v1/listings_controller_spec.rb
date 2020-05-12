@@ -12,30 +12,54 @@ RSpec.describe Api::V1::ListingsController, type: :controller do
     ) }
 
   describe 'POST#create' do
-    it 'creates a new listing' do
-      sign_in user
-      previous_count = Listing.count
-      post :create, params: { id: destination.id }
-      new_count = Listing.count
+    context 'with a successful request' do
+      it 'creates a new listing' do
+        sign_in user
+        previous_count = Listing.count
+        post :create, params: { id: destination.id }
+        new_count = Listing.count
 
-      expect(new_count).to eq(previous_count + 1)
+        expect(new_count).to eq(previous_count + 1)
+      end
+
+      it 'returns json of destination for the new listing' do
+        sign_in user
+        post :create, params: { id: destination.id }
+        parsed_response = JSON.parse(response.body)
+
+        expect(parsed_response).to be_kind_of(Hash)
+        expect(parsed_response).to have_key 'listing'
+        expect(parsed_response['listing']).to be_kind_of(Hash)
+        expect(parsed_response['listing'].length).to eq 3
+        expect(parsed_response['listing']['visited']).to eq false
+        expect(parsed_response['listing']['destination']['id']).to eq destination.id
+        expect(parsed_response['listing']['destination']['name']).to eq destination.name
+        expect(parsed_response['listing']['destination']['state']).to eq destination.state
+        expect(parsed_response['listing']['destination']['address']).to eq destination.address
+        expect(parsed_response['listing']['destination']['latitude'].to_d).to eq destination.latitude
+        expect(parsed_response['listing']['destination']['longitude'].to_d).to eq destination.longitude
+      end
     end
 
-    it 'returns json of destination for the new listing' do
-      sign_in user
-      post :create, params: { id: destination.id }
-      parsed_response = JSON.parse(response.body)
-      result = parsed_response['listing']
+    context 'with an unsuccessful request' do
+      it 'does not create a new listing' do
+        sign_in user
+        previous_count = Listing.count
+        post :create, params: { id: 1 }
+        new_count = Listing.count
 
-      expect(result).to be_kind_of(Hash)
-      expect(result.length).to eq 3
-      expect(result['visited']).to eq false
-      expect(result['destination']['id']).to eq destination.id
-      expect(result['destination']['name']).to eq destination.name
-      expect(result['destination']['state']).to eq destination.state
-      expect(result['destination']['address']).to eq destination.address
-      expect(result['destination']['latitude'].to_d).to eq destination.latitude
-      expect(result['destination']['longitude'].to_d).to eq destination.longitude
+        expect(new_count).to eq(previous_count)
+      end
+
+      it 'returns json of the error message' do
+        sign_in user
+        post :create, params: { id: 1 }
+        parsed_response = JSON.parse(response.body)
+
+        expect(parsed_response).to be_kind_of(Hash)
+        expect(parsed_response).to have_key 'error'
+        expect(parsed_response['error']).to eq 'could not be saved. Please try again'
+      end
     end
   end
 
@@ -46,19 +70,20 @@ RSpec.describe Api::V1::ListingsController, type: :controller do
       sign_in user
       get :index
       parsed_response = JSON.parse(response.body)
-      results = parsed_response['listings']
 
-      expect(results).to be_kind_of(Array)
-      expect(results.length).to eq 1
-      expect(results[0]['id']).to eq listing.id
-      expect(results[0]['visited']).to eq false
-      expect(results[0]).to have_key 'destination'
-      expect(results[0]['destination']['id']).to eq destination.id
-      expect(results[0]['destination']['name']).to eq destination.name
-      expect(results[0]['destination']['state']).to eq destination.state
-      expect(results[0]['destination']['address']).to eq destination.address
-      expect(results[0]['destination']['latitude'].to_d).to eq destination.latitude
-      expect(results[0]['destination']['longitude'].to_d).to eq destination.longitude
+      expect(parsed_response).to be_kind_of(Hash)
+      expect(parsed_response).to have_key 'listings'
+      expect(parsed_response['listings']).to be_kind_of(Array)
+      expect(parsed_response['listings'].length).to eq 1
+      expect(parsed_response['listings'][0]['id']).to eq listing.id
+      expect(parsed_response['listings'][0]['visited']).to eq false
+      expect(parsed_response['listings'][0]).to have_key 'destination'
+      expect(parsed_response['listings'][0]['destination']['id']).to eq destination.id
+      expect(parsed_response['listings'][0]['destination']['name']).to eq destination.name
+      expect(parsed_response['listings'][0]['destination']['state']).to eq destination.state
+      expect(parsed_response['listings'][0]['destination']['address']).to eq destination.address
+      expect(parsed_response['listings'][0]['destination']['latitude'].to_d).to eq destination.latitude
+      expect(parsed_response['listings'][0]['destination']['longitude'].to_d).to eq destination.longitude
     end
 
     it 'does not return destinations that the user has not added to their list' do
@@ -75,14 +100,15 @@ RSpec.describe Api::V1::ListingsController, type: :controller do
       sign_in new_user
       get :index
       parsed_response = JSON.parse(response.body)
-      results = parsed_response['listings']
 
-      expect(results[0]['destination']['id']).to_not eq destination.id
-      expect(results[0]['destination']['name']).to_not eq destination.name
-      expect(results[0]['destination']['state']).to_not eq destination.state
-      expect(results[0]['destination']['address']).to_not eq destination.address
-      expect(results[0]['destination']['latitude'].to_d).to_not eq destination.latitude
-      expect(results[0]['destination']['longitude'].to_d).to_not eq destination.longitude
+      expect(parsed_response).to be_kind_of(Hash)
+      expect(parsed_response).to have_key 'listings'
+      expect(parsed_response['listings'][0]['destination']['id']).to_not eq destination.id
+      expect(parsed_response['listings'][0]['destination']['name']).to_not eq destination.name
+      expect(parsed_response['listings'][0]['destination']['state']).to_not eq destination.state
+      expect(parsed_response['listings'][0]['destination']['address']).to_not eq destination.address
+      expect(parsed_response['listings'][0]['destination']['latitude'].to_d).to_not eq destination.latitude
+      expect(parsed_response['listings'][0]['destination']['longitude'].to_d).to_not eq destination.longitude
     end
   end
 
@@ -92,16 +118,17 @@ RSpec.describe Api::V1::ListingsController, type: :controller do
     it "returns json for the listing with 'id' provided in params" do
       get :show, params: {id: listing.id}
       parsed_response = JSON.parse(response.body)
-      result = parsed_response['listing']
 
-      expect(result).to be_kind_of(Hash)
-      expect(result.length).to eq 3
-      expect(result['id']).to eq listing.id
-      expect(result['destination']['name']).to eq destination.name
-      expect(result['destination']['state']).to eq destination.state
-      expect(result['destination']['address']).to eq destination.address
-      expect(result['destination']['latitude'].to_d).to eq destination.latitude
-      expect(result['destination']['longitude'].to_d).to eq destination.longitude
+      expect(parsed_response).to be_kind_of(Hash)
+      expect(parsed_response).to have_key 'listing'
+      expect(parsed_response['listing']).to be_kind_of(Hash)
+      expect(parsed_response['listing'].length).to eq 3
+      expect(parsed_response['listing']['id']).to eq listing.id
+      expect(parsed_response['listing']['destination']['name']).to eq destination.name
+      expect(parsed_response['listing']['destination']['state']).to eq destination.state
+      expect(parsed_response['listing']['destination']['address']).to eq destination.address
+      expect(parsed_response['listing']['destination']['latitude'].to_d).to eq destination.latitude
+      expect(parsed_response['listing']['destination']['longitude'].to_d).to eq destination.longitude
     end
   end
 
@@ -122,11 +149,12 @@ RSpec.describe Api::V1::ListingsController, type: :controller do
       sign_in user
       patch :update, params: { id: listing.id, visited: true }
       parsed_response = JSON.parse(response.body)
-      result = parsed_response['listing']
 
-      expect(result['id']).to eq listing.id
-      expect(result['destination']['id']).to eq listing.destination_id
-      expect(result['visited']).to eq true
+      expect(parsed_response).to be_kind_of(Hash)
+      expect(parsed_response).to have_key 'listing'
+      expect(parsed_response['listing']['id']).to eq listing.id
+      expect(parsed_response['listing']['destination']['id']).to eq listing.destination_id
+      expect(parsed_response['listing']['visited']).to eq true
     end
   end
 
@@ -155,12 +183,13 @@ RSpec.describe Api::V1::ListingsController, type: :controller do
       sign_in user
       delete :destroy, params: { id: listing.id }
       parsed_response = JSON.parse(response.body)
-      results = parsed_response['listings']
 
-      expect(results).to be_kind_of(Array)
-      expect(results.length).to eq 1
-      expect(results[0]['id']).to eq new_listing.id
-      expect(results[0]['destination']['id']).to eq new_listing.destination_id
+      expect(parsed_response).to be_kind_of(Hash)
+      expect(parsed_response).to have_key 'listings'
+      expect(parsed_response['listings']).to be_kind_of(Array)
+      expect(parsed_response['listings'].length).to eq 1
+      expect(parsed_response['listings'][0]['id']).to eq new_listing.id
+      expect(parsed_response['listings'][0]['destination']['id']).to eq new_listing.destination_id
     end
   end
 
@@ -170,14 +199,16 @@ RSpec.describe Api::V1::ListingsController, type: :controller do
       parsed_response = JSON.parse(response.body)
       results = parsed_response['destinations']
 
-      expect(results).to be_kind_of(Array)
-      expect(results.length).to eq 1
-      expect(results[0]['id']).to eq destination.id
-      expect(results[0]['name']).to eq destination.name
-      expect(results[0]['state']).to eq destination.state
-      expect(results[0]['address']).to eq destination.address
-      expect(results[0]['latitude'].to_d).to eq destination.latitude
-      expect(results[0]['longitude'].to_d).to eq destination.longitude
+      expect(parsed_response).to be_kind_of(Hash)
+      expect(parsed_response).to have_key 'destinations'
+      expect(parsed_response['destinations']).to be_kind_of(Array)
+      expect(parsed_response['destinations'].length).to eq 1
+      expect(parsed_response['destinations'][0]['id']).to eq destination.id
+      expect(parsed_response['destinations'][0]['name']).to eq destination.name
+      expect(parsed_response['destinations'][0]['state']).to eq destination.state
+      expect(parsed_response['destinations'][0]['address']).to eq destination.address
+      expect(parsed_response['destinations'][0]['latitude'].to_d).to eq destination.latitude
+      expect(parsed_response['destinations'][0]['longitude'].to_d).to eq destination.longitude
     end
   end
 end

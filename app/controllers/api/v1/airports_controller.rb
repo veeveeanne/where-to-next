@@ -5,7 +5,7 @@ class Api::V1::AirportsController < ApplicationController
     latitude = params["destination"]["latitude"].to_f
     longitude = params["destination"]["longitude"].to_f
 
-    airport_response = AmadeusWrapper.fetch_airport(latitude, longitude)
+    airport_response = FetchAirport.call(latitude, longitude)
 
     airport = Airport.where(iata_code: airport_response[:iata_code]).first_or_create do |airport|
       airport.name = airport_response[:name]
@@ -30,7 +30,9 @@ class Api::V1::AirportsController < ApplicationController
 
   def explore
     keyword = params["keyword"]
-    airports_response = AmadeusWrapper.fetch_airports(keyword)
+
+    airports_response = FetchAirports.call(keyword)
+
     if airports_response.length > 0
       airports = []
       airports_response.each do |airport_response|

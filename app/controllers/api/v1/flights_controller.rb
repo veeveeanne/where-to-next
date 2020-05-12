@@ -24,7 +24,7 @@ class Api::V1::FlightsController < ApplicationController
           departure_date: departure_date,
           return_date: return_date
         }
-        response = AmadeusWrapper.fetch_flights(query)
+        response = FetchFlights.call(query)
         key = response.keys[0]
         flights["#{key}"] = response[key]
       end
