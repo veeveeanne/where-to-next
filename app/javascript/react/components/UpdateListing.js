@@ -113,7 +113,7 @@ const UpdateListing = props => {
       <div className="callout-container">
         <div className="callout">
           <h1>{destination.name}</h1>
-          <h4 className="address">{addressDisplay}</h4>
+          <h4 className="detail-text">{addressDisplay}</h4>
           <div className="column text-center">
             <span className="checkbox">
               <i
