@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
-import ListingTile from './ListingTile'
-import VisitedTile from './VisitedTile'
-import DestinationFormTile from './DestinationFormTile'
-import ErrorList from './ErrorList'
-import MatchResultTile from './MatchResultTile'
-import DestinationResultTile from './DestinationResultTile'
+import ListingTile from '../components/ListingTile'
+import VisitedTile from '../components/VisitedTile'
+import DestinationFormTile from '../components/DestinationFormTile'
+import ErrorList from '../components/ErrorList'
+import MatchResultTile from '../components/MatchResultTile'
+import DestinationResultTile from '../components/DestinationResultTile'
 import fetchListings from '../services/FetchListings'
 import searchListings from '../services/SearchListings'
 
@@ -62,7 +62,6 @@ const ListingContainer = props => {
       )
     }
   })
-
 
   let completedTripsDisplay
   if (visitedListings.length > 0) {

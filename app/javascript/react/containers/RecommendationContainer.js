@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import _ from 'lodash'
 
-const Recommendation = props => {
+const RecommendationContainer = props => {
   const [recommendation, setRecommendation] = useState({})
   const [shouldRedirect, setShouldRedirect]= useState(false)
 
@@ -66,4 +66,4 @@ const Recommendation = props => {
   }
 }
 
-export default Recommendation
+export default RecommendationContainer
