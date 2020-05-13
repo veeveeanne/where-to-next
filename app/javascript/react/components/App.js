@@ -1,23 +1,25 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import DestinationIndexContainer from './DestinationIndexContainer'
-import NewDestinationFormContainer from './NewDestinationFormContainer'
-import ListingContainer from './ListingContainer'
-import UpdateListing from './UpdateListing'
-import TravelPlanContainer from './TravelPlanContainer'
+import DestinationIndexContainer from '../containers/DestinationIndexContainer'
+import ListingContainer from '../containers/ListingContainer'
+import ListingShowContainer from '../containers/ListingShowContainer'
+import TravelPlanContainer from '../containers/TravelPlanContainer'
+import RecommendationContainer from '../containers/RecommendationContainer'
 
 export const App = (props) => {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/destinations" component={DestinationIndexContainer} />
-        <Route exact path="/destinations/new" component={NewDestinationFormContainer} />
-        <Route exact path="/listings" component={ListingContainer} />
-        <Route exact path="/listings/:id/update" component={UpdateListing} />
-        <Route exact path="/travel" component={TravelPlanContainer} />
-      </Switch>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/destinations" component={DestinationIndexContainer} />
+          <Route exact path="/listings" component={ListingContainer} />
+          <Route exact path="/listings/:id/update" component={ListingShowContainer} />
+          <Route exact path="/travel" component={TravelPlanContainer} />
+          <Route exact path="/travel/recommendation" component={RecommendationContainer} />
+        </Switch>
+      </BrowserRouter>
+    </div>
   )
 }
 

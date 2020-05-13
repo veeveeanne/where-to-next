@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { trackPromise } from 'react-promise-tracker'
 import _ from 'lodash'
 
-import TravelFormTile from './TravelFormTile'
-import AirportFormTile from './AirportFormTile'
-import AirportMatchTile from './AirportMatchTile'
-import Recommendation from './Recommendation'
+import TravelFormTile from '../components/TravelFormTile'
+import AirportFormTile from '../components/AirportFormTile'
+import AirportMatchTile from '../components/AirportMatchTile'
+import SpinnerComponent from '../components/SpinnerComponent'
 
 const TravelPlanContainer = props => {
   const [airportForm, setAirportForm] = useState({
@@ -20,26 +21,7 @@ const TravelPlanContainer = props => {
   const [errors, setErrors] = useState({})
   const [airportMatches, setAirportMatches] = useState([])
   const [selectedLine, setSelectedLine] = useState(null)
-  const [recommendedCity, setRecommendedCity] = useState({})
-  const [recommendation, setRecommendation] = useState({})
-
-  useEffect(() => {
-    fetch('/api/v1/flights')
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      setRecommendation(body.flight)
-    })
-    .catch(error => console.error(`Error in fetch: ${error}`))
-  }, [])
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const handleTravelFormChange = (event) => {
     setTravelForm({
@@ -89,7 +71,7 @@ const TravelPlanContainer = props => {
     if (airportForm.keyword.trim() === "") {
       submitErrors = {
         ...submitErrors,
-        "keyword": "needs to be filled out"
+        "airport": "name or city needs to be filled out"
       }
     }
 
@@ -124,34 +106,40 @@ const TravelPlanContainer = props => {
   const handleTravelFormSubmit = (event) => {
     event.preventDefault()
     if (validForSubmission()) {
-      fetch('/api/v1/flights', {
-        credentials: "same-origin",
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(travelForm)
-      })
-      .then(response => {
-        if (response.ok) {
-          return response
-        } else {
-          let errorMessage = `${response.status} (${response.statusText})`
-          let error = new Error(errorMessage)
-          throw(error)
-        }
-      })
-      .then(response => response.json())
-      .then(body => {
-        setRecommendedCity(body)
-        setTravelForm({
-          airport_code: "",
-          departure_date: "",
-          return_date: ""
+      trackPromise(
+        fetch('/api/v1/flights', {
+          credentials: "same-origin",
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(travelForm)
         })
-      })
-      .catch(error => console.error(`Error in fetch: ${error}`))
+        .then(response => {
+          if (response.ok) {
+            return response
+          } else {
+            let errorMessage = `${response.status} (${response.statusText})`
+            let error = new Error(errorMessage)
+            throw(error)
+          }
+        })
+        .then(response => response.json())
+        .then(body => {
+          if (!_.isEmpty(body.flight)) {
+            setTravelForm({
+              airport_code: "",
+              departure_date: "",
+              return_date: ""
+            })
+            setShouldRedirect(true)
+          } else {
+            setErrors({"recommendation": "could not be made. Please check that you have destinations saved on your bucket list"})
+          }
+        })
+        .catch(error => console.error(`Error in fetch: ${error}`))
+      )
     }
   }
 
@@ -229,10 +217,10 @@ const TravelPlanContainer = props => {
     travel_dates = ""
     airport_info =
       <AirportFormTile
-        airportForm = {airportForm}
-        handleAirportFormChange = {handleAirportFormChange}
-        handleAirportFormSubmit = {handleAirportFormSubmit}
-        errors = {errors}
+        airportForm={airportForm}
+        handleAirportFormChange={handleAirportFormChange}
+        handleAirportFormSubmit={handleAirportFormSubmit}
+        errors={errors}
       />
   } else {
     airport_info = ""
@@ -245,7 +233,11 @@ const TravelPlanContainer = props => {
       />
   }
 
-  if (_.isEmpty(recommendedCity)) {
+  if (shouldRedirect) {
+    return(
+      <Redirect to="/travel/recommendation" />
+    )
+  } else {
     return(
       <div className="travel">
         <div className="form-spacer">
@@ -262,17 +254,12 @@ const TravelPlanContainer = props => {
           <div className="form">
             {travel_dates}
           </div>
+          <SpinnerComponent />
         </div>
         <div className="spacer">
           <Link to="/listings" className="button hollow secondary">Back to my bucket list</Link>
         </div>
       </div>
-    )
-  } else {
-    return(
-      <Recommendation
-        city={recommendedCity.city}
-      />
     )
   }
 }

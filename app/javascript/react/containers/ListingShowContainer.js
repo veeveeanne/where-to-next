@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import _ from 'lodash'
 
-const UpdateListing = props => {
+const ListingShowContainer = props => {
   const [destination, setDestination] = useState({})
   const [visitedStatus, setVisitedStatus] = useState(null)
   const [shouldRedirect, setShouldRedirect] = useState(false)
@@ -113,7 +113,7 @@ const UpdateListing = props => {
       <div className="callout-container">
         <div className="callout">
           <h1>{destination.name}</h1>
-          <h4 className="address">{addressDisplay}</h4>
+          <h4 className="detail-text">{addressDisplay}</h4>
           <div className="column text-center">
             <span className="checkbox">
               <i
@@ -141,4 +141,4 @@ const UpdateListing = props => {
   }
 }
 
-export default UpdateListing
+export default ListingShowContainer
