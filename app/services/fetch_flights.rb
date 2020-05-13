@@ -1,7 +1,7 @@
 class FetchFlights
 
   def self.call(query)
-    results = AmadeusService.fetch_flights(query)
+    results = AmadeusWrapper.new.fetch_flights(query)
 
     if results.length > 0
       price_array = []

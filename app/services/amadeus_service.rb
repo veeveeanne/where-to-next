@@ -5,7 +5,7 @@ class AmadeusService
     Amadeus::Client.new
   end
 
-  def self.fetch_airport(latitude, longitude)
+  def fetch_airport(latitude, longitude)
     response = amadeus.reference_data.locations.airports.get(
       latitude: latitude.to_f,
       longitude: longitude.to_f
@@ -13,7 +13,7 @@ class AmadeusService
     results = response.data
   end
 
-  def self.fetch_airports(keyword)
+  def fetch_airports(keyword)
     response = amadeus.reference_data.locations.get(
       keyword: keyword,
       subType: Amadeus::Location::AIRPORT
@@ -21,7 +21,7 @@ class AmadeusService
     results = response.data
   end
 
-  def self.fetch_flights(query)
+  def fetch_flights(query)
     origin = query[:origin]
     destination = query[:destination]
     departure_date = query[:departure_date]

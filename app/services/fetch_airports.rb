@@ -1,7 +1,7 @@
 class FetchAirports
 
   def self.call(keyword)
-    results = AmadeusService.fetch_airports(keyword)
+    results = AmadeusWrapper.new.fetch_airports(keyword)
 
     if results.length > 0
       airports = []

@@ -1,7 +1,7 @@
 class FetchAirport
 
   def self.call(latitude, longitude)
-    results = AmadeusService.fetch_airport(latitude, longitude)
+    results = AmadeusWrapper.new.fetch_airport(latitude, longitude)
 
     if results.length > 0
       airport = {}
