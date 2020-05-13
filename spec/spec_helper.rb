@@ -14,21 +14,6 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  # config.before(:each) do
-  #   stub_request(:post, "https://test.api.amadeus.com/v1/security/oauth2/token").
-  #   with(
-  #     body: {"client_id"=>"cTRsfxKEvK1SB5RiWFK7soNuYT2AgEkC", "client_secret"=>"tItKyJkgomxFPD12", "grant_type"=>"client_credentials"},
-  #     headers: {
-  #       'Accept'=>'application/json, application/vnd.amadeus+json',
-  #       'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-  #       'Content-Type'=>'application/x-www-form-urlencoded',
-  #       'Host'=>'test.api.amadeus.com',
-  #       'User-Agent'=>'amadeus-ruby/4.0.0 ruby/2.6.5'
-  #       }).
-  #       to_return(status: 200, body: "", headers: {})
-  # end
-
-
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

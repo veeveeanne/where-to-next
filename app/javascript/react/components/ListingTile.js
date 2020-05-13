@@ -22,20 +22,19 @@ const ListingTile = props => {
 
   return(
     <div className="listing">
-    <Link to={{
-        pathname: `/listings/${listing.id}/update`,
-        state: { destination: props.destination }
-      }}
-    >
-      <h3
-        className={classValue}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+      <Link to={{
+          pathname: `/listings/${listing.id}/update`,
+          state: { destination: props.destination }
+        }}
       >
-        {`${name}, ${state}`}
-      </h3>
-    </Link>
-
+        <h3
+          className={classValue}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {`${name}, ${state}`}
+        </h3>
+      </Link>
     </div>
   )
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import _ from 'lodash'
 
-const UpdateListing = props => {
+const ListingShowContainer = props => {
   const [destination, setDestination] = useState({})
   const [visitedStatus, setVisitedStatus] = useState(null)
   const [shouldRedirect, setShouldRedirect] = useState(false)
@@ -141,4 +141,4 @@ const UpdateListing = props => {
   }
 }
 
-export default UpdateListing
+export default ListingShowContainer
