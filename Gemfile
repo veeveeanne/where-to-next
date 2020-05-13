@@ -57,3 +57,4 @@ gem 'faraday'
 gem 'active_model_serializers'
 gem 'vcr', group: [:development, :test]
 gem 'amadeus'
+gem 'webmock', group: [:development, :test]

@@ -17,7 +17,7 @@
     <div class="top-bar-right">
       <div class="button-group">
         <%- if current_user -%>
-          <%= link_to 'My Account', listings_path, class: "button" %>
+          <%= link_to 'My Travel List', listings_path, class: "button" %>
           <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "button" %>
         <%- else -%>
           <%= link_to 'Sign In', new_user_session_path, class: "button" %>

@@ -9,6 +9,7 @@ require File.join(File.dirname(__FILE__), 'support/shoulda')
 require File.join(File.dirname(__FILE__), 'support/valid_attribute')
 require File.join(File.dirname(__FILE__), 'support/factory_bot')
 require 'capybara/rspec'
+require 'webmock/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -76,4 +77,6 @@ RSpec.configure do |config|
     config.filter_sensitive_data('<AMADEUS_CLIENT_SECRET>') { ENV["AMADEUS_CLIENT_SECRET"] }
     config.filter_sensitive_data('<EMAIL>') { 'vivian.emmenuel.wang@gmail.com' }
   end
+
+  WebMock.disable_net_connect!(allow_localhost: true)
 end

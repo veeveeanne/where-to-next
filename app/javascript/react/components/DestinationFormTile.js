@@ -121,9 +121,9 @@ const DestinationFormTile = props => {
                 Clear Form
               </button>
             </div>
-              <ErrorList
-                errors={errors}
-              />
+            <ErrorList
+              errors={errors}
+            />
           </div>
         </div>
       </fieldset>

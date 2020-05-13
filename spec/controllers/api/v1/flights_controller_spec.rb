@@ -3,12 +3,19 @@ require 'rails_helper'
 RSpec.describe Api::V1::FlightsController, type: :controller do
   describe 'POST#create' do
     let!(:user) { FactoryBot.create(:user) }
-    let!(:airport) { Airport.create(
+    let!(:destination_airport) { Airport.create(
       name: 'SEATTLE TACOMA INTL',
       iata_code: 'SEA',
       latitude: 47.44889,
       longitude: -122.3094,
       city: 'SEATTLE'
+      )}
+    let!(:departure_airport) { Airport.create(
+      name: 'LOGAN',
+      iata_code: 'BOS',
+      latitude: 122.3094,
+      longitude: -47.44889,
+      city: 'BOSTON'
       )}
     let!(:destination) { Destination.create(
       name: 'Seattle',
@@ -16,7 +23,7 @@ RSpec.describe Api::V1::FlightsController, type: :controller do
       address: '123 Main St',
       latitude: 12.3456789,
       longitude: -98.7654321,
-      airport: airport
+      airport: destination_airport
       ) }
     let!(:listing) { Listing.create(destination: destination, user: user) }
     let!(:params_hash) { {
@@ -34,13 +41,29 @@ RSpec.describe Api::V1::FlightsController, type: :controller do
       expect(new_count).to eq (previous_count + 1)
     end
 
-    it 'returns json for the airport of the suggested destination' do
+    it 'returns json for the suggested flight' do
       sign_in user
       post :create, params: params_hash
       parsed_response = JSON.parse(response.body)
-      suggested_destination = Flight.find_by(recommended: true)
+      result = parsed_response['flight']
 
-      expect(parsed_response['iata_code']).to eq suggested_destination.destination_iata
+      expect(result).to be_kind_of(Hash)
+      expect(result.length).to eq 4
+      expect(result).to have_key 'departure_airport'
+      expect(result).to have_key 'destination_airport'
+      expect(result).to have_key 'destinations'
+      expect(result['departure_airport']['id']).to eq departure_airport.id
+      expect(result['departure_airport']['name']).to eq departure_airport.name
+      expect(result['departure_airport']['iata_code']).to eq departure_airport.iata_code
+      expect(result['departure_airport']['city']).to eq departure_airport.city
+      expect(result['destination_airport']['id']).to eq destination_airport.id
+      expect(result['destination_airport']['name']).to eq destination_airport.name
+      expect(result['destination_airport']['iata_code']).to eq destination_airport.iata_code
+      expect(result['destination_airport']['city']).to eq destination_airport.city
+      expect(result['destinations']).to be_kind_of(Array)
+      expect(result['destinations'][0]['id']).to eq destination.id
+      expect(result['destinations'][0]['name']).to eq destination.name
+      expect(result['destinations'][0]['state']).to eq destination.state
     end
   end
 

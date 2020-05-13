@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
-import ListingTile from './ListingTile'
-import VisitedTile from './VisitedTile'
-import DestinationFormTile from './DestinationFormTile'
-import ErrorList from './ErrorList'
-import MatchResultTile from './MatchResultTile'
-import DestinationResultTile from './DestinationResultTile'
+import ListingTile from '../components/ListingTile'
+import VisitedTile from '../components/VisitedTile'
+import DestinationFormTile from '../components/DestinationFormTile'
+import ErrorList from '../components/ErrorList'
+import MatchResultTile from '../components/MatchResultTile'
+import DestinationResultTile from '../components/DestinationResultTile'
 import fetchListings from '../services/FetchListings'
 import searchListings from '../services/SearchListings'
 
@@ -62,7 +62,6 @@ const ListingContainer = props => {
       )
     }
   })
-
 
   let completedTripsDisplay
   if (visitedListings.length > 0) {
@@ -181,11 +180,15 @@ const ListingContainer = props => {
     })
     .then(response => response.json())
     .then(body => {
-      setSearchDestinations(body.results)
-      setDestination({
-        ...destination,
-        state: listingForm.state
-      })
+      if (body.results.length > 0) {
+        setSearchDestinations(body.results)
+        setDestination({
+          ...destination,
+          state: listingForm.state
+        })
+      } else {
+        setErrors({"destination": "could not be found, please try a different search"})
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
@@ -276,12 +279,6 @@ const ListingContainer = props => {
         throw(error)
       }
     })
-    .then(response => response.json())
-    .then(body => {
-      if (body.error) {
-        setErrors({destination: body["error"]})
-      }
-    })
     .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
@@ -292,12 +289,12 @@ const ListingContainer = props => {
           <div className="medium-6 column">
             <div className="form">
               <DestinationFormTile
-                destinationForm = {listingForm}
-                handleFormChange = {handleFormChange}
-                handleFormSubmit = {handleFormSubmit}
-                handleClearForm = {handleClearForm}
-                errors = {errors}
-                legend = {legend}
+                destinationForm={listingForm}
+                handleFormChange={handleFormChange}
+                handleFormSubmit={handleFormSubmit}
+                handleClearForm={handleClearForm}
+                errors={errors}
+                legend={legend}
               />
             </div>
           </div>
@@ -317,7 +314,7 @@ const ListingContainer = props => {
         </div>
         {completedTripsDisplay}
         <div className="tile">
-          <Link to="/travel" className="button expanded">
+          <Link to="/travel/recommendation" className="button expanded">
             <h3 className="button-text">I'm ready to travel somewhere</h3>
           </Link>
         </div>
