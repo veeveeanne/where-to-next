@@ -13,6 +13,7 @@ class FetchAirports
           airport[:name] = airport_result['name']
           airport[:iata_code] = airport_result['iataCode']
           airport[:city] = airport_result['address']['cityName']
+          airport[:state] = airport_result['address']['stateCode']
           airport[:latitude] = airport_result['geoCode']['latitude']
           airport[:longitude] = airport_result['geoCode']['longitude']
           airports.push(airport)
@@ -20,6 +21,7 @@ class FetchAirports
           airport[:name] = airport_result['name']
           airport[:iata_code] = airport_result['iataCode']
           airport[:city] = airport_result['address']['cityName']
+          airport[:state] = airport_result['address']['stateCode']
           airport[:latitude] = airport_result['geoCode']['latitude']
           airport[:longitude] = airport_result['geoCode']['longitude']
           airports.push(airport)

@@ -6,13 +6,14 @@ class Api::V1::AirportsController < ApplicationController
     longitude = params["destination"]["longitude"].to_f
 
     airport_response = FetchAirport.call(latitude, longitude)
-
+    
     airport = Airport.where(iata_code: airport_response[:iata_code]).first_or_create do |airport|
       airport.name = airport_response[:name]
       airport.iata_code = airport_response[:iata_code]
       airport.latitude = airport_response[:latitude]
       airport.longitude = airport_response[:longitude]
       airport.city = airport_response[:city]
+      airport.state = airport_response[:state]
     end
 
     destination = Destination.find(params["destination"]["id"])
@@ -41,7 +42,8 @@ class Api::V1::AirportsController < ApplicationController
           iata_code: airport_response[:iata_code],
           latitude: airport_response[:latitude],
           longitude: airport_response[:longitude],
-          city: airport_response[:city]
+          city: airport_response[:city],
+          state: airport_response[:state]
         )
         airports.push(airport)
       end

@@ -8,14 +8,16 @@ RSpec.describe Api::V1::FlightsController, type: :controller do
       iata_code: 'SEA',
       latitude: 47.44889,
       longitude: -122.3094,
-      city: 'SEATTLE'
+      city: 'SEATTLE',
+      state: 'WA'
       )}
     let!(:departure_airport) { Airport.create(
       name: 'LOGAN',
       iata_code: 'BOS',
       latitude: 122.3094,
       longitude: -47.44889,
-      city: 'BOSTON'
+      city: 'BOSTON',
+      state: 'MA'
       )}
     let!(:destination) { Destination.create(
       name: 'Seattle',
@@ -74,14 +76,16 @@ RSpec.describe Api::V1::FlightsController, type: :controller do
       iata_code: 'SEA',
       latitude: 47.44889,
       longitude: -122.3094,
-      city: 'SEATTLE'
+      city: 'SEATTLE',
+      state: 'WA'
       )}
     let!(:departure_airport) { Airport.create(
       name: 'LOGAN',
       iata_code: 'BOS',
       latitude: 122.3094,
       longitude: -47.44889,
-      city: 'BOSTON'
+      city: 'BOSTON',
+      state: 'MA'
       )}
     let!(:destination) { Destination.create(
       name: 'Seattle',

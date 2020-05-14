@@ -33,6 +33,7 @@ class AmadeusService
       departureDate: departure_date,
       returnDate: return_date
     )
+
     results = response.data
   end
 end

@@ -34,8 +34,8 @@ const RecommendationContainer = props => {
   if (!_.isEmpty(recommendation)) {
     let cityData = _.lowerCase(recommendation.destination_airport.city)
     city = _.startCase(cityData)
+    state = recommendation.destination_airport.state
     destinations = recommendation.destinations.map((destination) => {
-      state = destination.state
       return(
         <div key={destination.id}>
           {destination.name}
