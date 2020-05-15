@@ -6,7 +6,7 @@ class FetchFlights
     if results.length > 0
       price_array = []
       results.each do |offer_result|
-        price = offer_result['offerItems'][0]['pricePerAdult']['total'].to_f
+        price = offer_result['price']['total'].to_f
         price_array.push(price)
       end
       return flight = { "#{query[:destination]}" => price_array }
