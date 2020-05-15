@@ -8,12 +8,7 @@ import DestinationFormTile from '../components/DestinationFormTile'
 import ErrorList from '../components/ErrorList'
 import MatchResultTile from '../components/MatchResultTile'
 import DestinationResultTile from '../components/DestinationResultTile'
-import getListings from '../services/GetListings'
-import searchListings from '../services/SearchListings'
-import postListings from '../services/PostListings'
-import searchDestination from '../services/SearchDestination'
-import postDestination from '../services/PostDestination'
-import postAirport from '../services/PostAirport'
+import whereToNextApi from '../services/WhereToNextApi'
 
 const ListingContainer = props => {
   const [listingForm, setListingForm] = useState({
@@ -30,7 +25,7 @@ const ListingContainer = props => {
   const legend = "Add to my bucket list"
 
   useEffect(() => {
-    getListings()
+    whereToNextApi.getListings()
     .then(body => {
       setListings(body.listings)
     })
@@ -81,7 +76,7 @@ const ListingContainer = props => {
     setDestinationMatches([])
     setSearchDestinations([])
     if (validForSubmission()) {
-      searchListings(listingForm)
+      whereToNextApi.searchListings(listingForm)
       .then(body => {
         if (body.destinations.length > 0) {
           setDestinationMatches(body.destinations)
@@ -118,7 +113,7 @@ const ListingContainer = props => {
   }
 
   const handleMatchClick = (payload) => {
-    postListings(payload)
+    whereToNextApi.postListings(payload)
     .then(body => {
       if (body.error) {
         setErrors({destination: body["error"]})
@@ -153,7 +148,7 @@ const ListingContainer = props => {
 
   const addDestination = () => {
     let query = listingForm.name.concat(" ", listingForm.state)
-    searchDestination(query)
+    whereToNextApi.searchDestination(query)
     .then(body => {
       if (body.results.length > 0) {
         setSearchDestinations(body.results)
@@ -202,7 +197,7 @@ const ListingContainer = props => {
   }
 
   const createDestination = (destinationHolder) => {
-    postDestination(destinationHolder)
+    whereToNextApi.postDestination(destinationHolder)
     .then(body => {
       setDestination(body)
       setListingForm({
@@ -211,7 +206,7 @@ const ListingContainer = props => {
       })
       setSearchDestinations([])
       handleMatchClick({id: body.destination.id})
-      postAirport(body)
+      whereToNextApi.postAirport(body)
     })
   }
 
