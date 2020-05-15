@@ -27,7 +27,7 @@ const AirportMatchTile = props => {
     props.handleClick(iataCode)
   }
 
-  return(
+  return (
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

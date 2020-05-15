@@ -7,6 +7,7 @@ import TravelFormTile from '../components/TravelFormTile'
 import AirportFormTile from '../components/AirportFormTile'
 import AirportMatchTile from '../components/AirportMatchTile'
 import SpinnerComponent from '../components/SpinnerComponent'
+import whereToNextApi from '../services/WhereToNextApi'
 
 const TravelPlanContainer = props => {
   const [airportForm, setAirportForm] = useState({
@@ -41,17 +42,7 @@ const TravelPlanContainer = props => {
     event.preventDefault()
     setAirportMatches([])
     if (airportValidForSubmission()) {
-      fetch(`/api/v1/airports/search?keyword=${airportForm.keyword}`)
-      .then(response => {
-        if (response.ok) {
-          return response
-        } else {
-          let errorMessage = `${response.status} (${response.statusText})`
-          let error = new Error(errorMessage)
-          throw(error)
-        }
-      })
-      .then(response => response.json())
+      whereToNextApi.searchAirports(airportForm.keyword)
       .then(body => {
         if (body.airports) {
           searchAirports()
@@ -62,7 +53,6 @@ const TravelPlanContainer = props => {
           })
         }
       })
-      .catch(error => console.error(`Error in fetch: ${error}`))
     }
   }
 
@@ -91,7 +81,7 @@ const TravelPlanContainer = props => {
   let airportMatchesDisplay
   if (airportMatches.length > 0) {
     airportMatchesDisplay = airportMatches.map((airport) => {
-      return(
+      return (
         <AirportMatchTile
           key={airport.id}
           airport={airport}
@@ -107,25 +97,7 @@ const TravelPlanContainer = props => {
     event.preventDefault()
     if (validForSubmission()) {
       trackPromise(
-        fetch('/api/v1/flights', {
-          credentials: "same-origin",
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify(travelForm)
-        })
-        .then(response => {
-          if (response.ok) {
-            return response
-          } else {
-            let errorMessage = `${response.status} (${response.statusText})`
-            let error = new Error(errorMessage)
-            throw(error)
-          }
-        })
-        .then(response => response.json())
+        whereToNextApi.postFlights(travelForm)
         .then(body => {
           if (!_.isEmpty(body.flight)) {
             setTravelForm({
@@ -138,7 +110,6 @@ const TravelPlanContainer = props => {
             setErrors({"recommendation": "could not be made. Please check that you have destinations saved on your bucket list"})
           }
         })
-        .catch(error => console.error(`Error in fetch: ${error}`))
       )
     }
   }
@@ -190,17 +161,7 @@ const TravelPlanContainer = props => {
   }
 
   const searchAirports = () => {
-    fetch(`/api/v1/airports/explore?keyword=${airportForm.keyword}`)
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.exploreAirports(airportForm.keyword)
     .then(body => {
       if (body.errors) {
         setErrors({airport: body["error"]})
@@ -208,7 +169,6 @@ const TravelPlanContainer = props => {
         setAirportMatches(body)
       }
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
   let airport_info
@@ -234,11 +194,11 @@ const TravelPlanContainer = props => {
   }
 
   if (shouldRedirect) {
-    return(
+    return (
       <Redirect to="/travel/recommendation" />
     )
   } else {
-    return(
+    return (
       <div className="travel">
         <div className="form-spacer">
           <h3>I want a recommendation for my next trip</h3>

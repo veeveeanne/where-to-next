@@ -71,14 +71,14 @@ const DestinationFormTile = props => {
       value = state.split("-")[1].trim()
     }
 
-    return(
+    return (
       <option key={state} value={value}>
         {state}
       </option>
     )
   })
 
-  return(
+  return (
     <form onSubmit={handleFormSubmit}>
       <fieldset className="fieldset">
         <legend className="instruction">

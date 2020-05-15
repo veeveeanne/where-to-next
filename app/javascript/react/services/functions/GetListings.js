@@ -1,5 +1,5 @@
 const getListings = () => {
-  return(
+  return (
     fetch('/api/v1/listings')
     .then(response => {
       if (response.ok) {

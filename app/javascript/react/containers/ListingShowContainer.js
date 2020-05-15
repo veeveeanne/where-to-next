@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import _ from 'lodash'
 
+import whereToNextApi from '../services/WhereToNextApi'
+
 const ListingShowContainer = props => {
   const [destination, setDestination] = useState({})
   const [visitedStatus, setVisitedStatus] = useState(null)
@@ -10,22 +12,11 @@ const ListingShowContainer = props => {
   const id = props.match.params.id
 
   useEffect(() => {
-    fetch(`/api/v1/listings/${id}`)
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.getListing(id)
     .then(body => {
       setDestination(body.listing.destination)
       setVisitedStatus(body.listing.visited)
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }, [])
 
   const handleClickVisited = (event) => {
@@ -34,53 +25,19 @@ const ListingShowContainer = props => {
       id: id,
       visited: !visitedStatus,
     }
-    fetch(`/api/v1/listings/${id}`, {
-      credentials: "same-origin",
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.patchListing(id, payload)
     .then(body => {
       setVisitedStatus(body.listing.visited)
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
+
   }
 
   const handleClickDelete = (event) => {
     event.preventDefault()
     let payload = {id: id}
-    fetch(`/api/v1/listings/${id}`, {
-      credentials: "same-origin",
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(response => {
-      if (response.ok) {
-        setShouldRedirect(true)
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .catch(error => console.error(`Error in fetch: ${error}`))
+    if (whereToNextApi.deleteListing(id, payload)) {
+      setShouldRedirect(true)
+    }
   }
 
   let iconName = "far fa-square fa-3x"
@@ -105,11 +62,11 @@ const ListingShowContainer = props => {
   }
 
   if (shouldRedirect) {
-    return(
+    return (
       <Redirect to="/listings" />
     )
   } else {
-    return(
+    return (
       <div className="callout-container">
         <div className="callout">
           <h1>{destination.name}</h1>

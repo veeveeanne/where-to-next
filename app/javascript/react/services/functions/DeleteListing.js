@@ -1,26 +1,25 @@
-const postListings = (payload) => {
+const deleteListing = (id, payload) => {
   return (
-    fetch('/api/v1/listings', {
+    fetch(`/api/v1/listings/${id}`, {
       credentials: "same-origin",
-      method: "POST",
+      method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
+        "Content-type": "application/json",
         "Accept": "application/json"
       },
       body: JSON.stringify(payload)
     })
     .then(response => {
       if (response.ok) {
-        return response
+        return true
       } else {
         let errorMessage = `${response.status} (${response.statusText})`
         let error = new Error(errorMessage)
         throw(error)
       }
     })
-    .then(response => response.json())
     .catch(error => console.error(`Error in fetch: ${error}`))
   )
 }
 
-export default postListings
+export default deleteListing

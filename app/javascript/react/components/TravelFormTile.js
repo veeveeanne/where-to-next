@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import ErrorList from './ErrorList'
 
 const TravelFormTile = props => {
-  return(
+  return (
     <form onSubmit={props.handleTravelFormSubmit}>
       <fieldset className="fieldset">
         <legend className="instruction">

@@ -20,7 +20,7 @@ const ListingTile = props => {
     classValue="tile text-selected"
   }
 
-  return(
+  return (
     <div className="listing">
       <Link to={{
           pathname: `/listings/${listing.id}/update`,
