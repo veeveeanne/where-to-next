@@ -80,50 +80,801 @@ class AmadeusFakeService
 
   def fetch_flights(query)
     results = [
-      {"type"=>"flight-offer",
-  "id"=>"1589319326765-680962903",
-  "offerItems"=>
-   [{"services"=>
-      [{"segments"=>
-         [{"flightSegment"=>
-            {"departure"=>{"iataCode"=>"BOS", "terminal"=>"A", "at"=>"2020-08-01T11:03:00-04:00"},
-             "arrival"=>{"iataCode"=>"JFK", "terminal"=>"4", "at"=>"2020-08-01T12:30:00-04:00"},
-             "carrierCode"=>"DL",
-             "number"=>"5626",
-             "aircraft"=>{"code"=>"E70"},
-             "operating"=>{"number"=>"5626"},
-             "duration"=>"0DT1H27M"},
-           "pricingDetailPerAdult"=>{"travelClass"=>"ECONOMY", "fareClass"=>"E", "availability"=>7, "fareBasis"=>"UAVNA0BC"}},
-          {"flightSegment"=>
-            {"departure"=>{"iataCode"=>"JFK", "terminal"=>"4", "at"=>"2020-08-01T15:55:00-04:00"},
-             "arrival"=>{"iataCode"=>"SEA", "at"=>"2020-08-01T19:10:00-07:00"},
-             "carrierCode"=>"DL",
-             "number"=>"2699",
-             "aircraft"=>{"code"=>"75W"},
-             "operating"=>{"carrierCode"=>"DL", "number"=>"2699"},
-             "duration"=>"0DT6H15M"},
-           "pricingDetailPerAdult"=>{"travelClass"=>"ECONOMY", "fareClass"=>"E", "availability"=>9, "fareBasis"=>"UAVNA0BC"}}]},
-       {"segments"=>
-         [{"flightSegment"=>
-            {"departure"=>{"iataCode"=>"SEA", "at"=>"2020-08-05T14:05:00-07:00"},
-             "arrival"=>{"iataCode"=>"MSP", "terminal"=>"1", "at"=>"2020-08-05T19:31:00-05:00"},
-             "carrierCode"=>"DL",
-             "number"=>"3043",
-             "aircraft"=>{"code"=>"752"},
-             "operating"=>{"carrierCode"=>"DL", "number"=>"3043"},
-             "duration"=>"0DT3H26M"},
-           "pricingDetailPerAdult"=>{"travelClass"=>"ECONOMY", "fareClass"=>"E", "availability"=>9, "fareBasis"=>"VAVSH3BC"}},
-          {"flightSegment"=>
-            {"departure"=>{"iataCode"=>"MSP", "terminal"=>"1", "at"=>"2020-08-05T20:20:00-05:00"},
-             "arrival"=>{"iataCode"=>"BOS", "terminal"=>"A", "at"=>"2020-08-06T00:10:00-04:00"},
-             "carrierCode"=>"DL",
-             "number"=>"1218",
-             "aircraft"=>{"code"=>"321"},
-             "operating"=>{"carrierCode"=>"DL", "number"=>"1218"},
-             "duration"=>"0DT2H50M"},
-           "pricingDetailPerAdult"=>{"travelClass"=>"ECONOMY", "fareClass"=>"E", "availability"=>9, "fareBasis"=>"VAVSH3BC"}}]}],
-     "price"=>{"total"=>"329.06", "totalTaxes"=>"27.06"},
-     "pricePerAdult"=>{"total"=>"329.06", "totalTaxes"=>"27.06"}}]}
-    ]
+      {
+      "type" => "flight-offer",
+      "id" => "1",
+      "source" => "GDS",
+      "instantTicketingRequired" => false,
+      "nonHomogeneous" => false,
+      "oneWay" => false,
+      "lastTicketingDate" => "2020-05-16",
+      "numberOfBookableSeats" => 9,
+      "itineraries" => [
+        {
+          "duration" => "PT6H16M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-01T06:50:00"
+              },
+              "arrival" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-01T10:06:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "2397",
+              "aircraft" => {
+                "code" => "32S"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT6H16M",
+              "id" => "1",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        },
+        {
+          "duration" => "PT5H16M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-05T23:43:00"
+              },
+              "arrival" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-06T07:59:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "498",
+              "aircraft" => {
+                "code" => "32S"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT5H16M",
+              "id" => "3",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        }
+      ],
+      "price" => {
+        "currency" => "USD",
+        "total" => "512.40",
+        "base" => "472.00",
+        "fees" => [
+          {
+            "amount" => "0.00",
+            "type" => "SUPPLIER"
+          },
+          {
+            "amount" => "0.00",
+            "type" => "TICKETING"
+          }
+        ],
+        "grandTotal" => "512.40"
+      },
+      "pricingOptions" => {
+        "fareType" => [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly" => false
+      },
+      "validatingAirlineCodes" => [
+        "B6"
+      ],
+      "travelerPricings" => [
+        {
+          "travelerId" => "1",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "1",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "3",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        },
+        {
+          "travelerId" => "2",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "1",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "3",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type" => "flight-offer",
+      "id" => "2",
+      "source" => "GDS",
+      "instantTicketingRequired" => false,
+      "nonHomogeneous" => false,
+      "oneWay" => false,
+      "lastTicketingDate" => "2020-05-16",
+      "numberOfBookableSeats" => 9,
+      "itineraries" => [
+        {
+          "duration" => "PT6H16M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-01T06:50:00"
+              },
+              "arrival" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-01T10:06:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "2397",
+              "aircraft" => {
+                "code" => "32S"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT6H16M",
+              "id" => "1",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        },
+        {
+          "duration" => "PT5H28M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-05T11:16:00"
+              },
+              "arrival" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-05T19:44:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "2398",
+              "aircraft" => {
+                "code" => "32S"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT5H28M",
+              "id" => "4",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        }
+      ],
+      "price" => {
+        "currency" => "USD",
+        "total" => "512.40",
+        "base" => "472.00",
+        "fees" => [
+          {
+            "amount" => "0.00",
+            "type" => "SUPPLIER"
+          },
+          {
+            "amount" => "0.00",
+            "type" => "TICKETING"
+          }
+        ],
+        "grandTotal" => "512.40"
+      },
+      "pricingOptions" => {
+        "fareType" => [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly" => false
+      },
+      "validatingAirlineCodes" => [
+        "B6"
+      ],
+      "travelerPricings" => [
+        {
+          "travelerId" => "1",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "1",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "4",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        },
+        {
+          "travelerId" => "2",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "1",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "4",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type" => "flight-offer",
+      "id" => "3",
+      "source" => "GDS",
+      "instantTicketingRequired" => false,
+      "nonHomogeneous" => false,
+      "oneWay" => false,
+      "lastTicketingDate" => "2020-05-16",
+      "numberOfBookableSeats" => 9,
+      "itineraries" => [
+        {
+          "duration" => "PT6H16M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-01T06:50:00"
+              },
+              "arrival" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-01T10:06:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "2397",
+              "aircraft" => {
+                "code" => "32S"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT6H16M",
+              "id" => "1",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        },
+        {
+          "duration" => "PT5H31M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-05T13:56:00"
+              },
+              "arrival" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-05T22:27:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "298",
+              "aircraft" => {
+                "code" => "320"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT5H31M",
+              "id" => "5",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        }
+      ],
+      "price" => {
+        "currency" => "USD",
+        "total" => "512.40",
+        "base" => "472.00",
+        "fees" => [
+          {
+            "amount" => "0.00",
+            "type" => "SUPPLIER"
+          },
+          {
+            "amount" => "0.00",
+            "type" => "TICKETING"
+          }
+        ],
+        "grandTotal" => "512.40"
+      },
+      "pricingOptions" => {
+        "fareType" => [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly" => false
+      },
+      "validatingAirlineCodes" => [
+        "B6"
+      ],
+      "travelerPricings" => [
+        {
+          "travelerId" => "1",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "1",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "5",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        },
+        {
+          "travelerId" => "2",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "1",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "5",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type" => "flight-offer",
+      "id" => "4",
+      "source" => "GDS",
+      "instantTicketingRequired" => false,
+      "nonHomogeneous" => false,
+      "oneWay" => false,
+      "lastTicketingDate" => "2020-05-16",
+      "numberOfBookableSeats" => 9,
+      "itineraries" => [
+        {
+          "duration" => "PT6H20M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-01T09:46:00"
+              },
+              "arrival" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-01T13:06:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "297",
+              "aircraft" => {
+                "code" => "320"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT6H20M",
+              "id" => "2",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        },
+        {
+          "duration" => "PT5H16M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-05T23:43:00"
+              },
+              "arrival" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-06T07:59:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "498",
+              "aircraft" => {
+                "code" => "32S"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT5H16M",
+              "id" => "3",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        }
+      ],
+      "price" => {
+        "currency" => "USD",
+        "total" => "512.40",
+        "base" => "472.00",
+        "fees" => [
+          {
+            "amount" => "0.00",
+            "type" => "SUPPLIER"
+          },
+          {
+            "amount" => "0.00",
+            "type" => "TICKETING"
+          }
+        ],
+        "grandTotal" => "512.40"
+      },
+      "pricingOptions" => {
+        "fareType" => [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly" => false
+      },
+      "validatingAirlineCodes" => [
+        "B6"
+      ],
+      "travelerPricings" => [
+        {
+          "travelerId" => "1",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "2",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "3",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        },
+        {
+          "travelerId" => "2",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "2",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "3",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type" => "flight-offer",
+      "id" => "5",
+      "source" => "GDS",
+      "instantTicketingRequired" => false,
+      "nonHomogeneous" => false,
+      "oneWay" => false,
+      "lastTicketingDate" => "2020-05-16",
+      "numberOfBookableSeats" => 9,
+      "itineraries" => [
+        {
+          "duration" => "PT6H20M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-01T09:46:00"
+              },
+              "arrival" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-01T13:06:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "297",
+              "aircraft" => {
+                "code" => "320"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT6H20M",
+              "id" => "2",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        },
+        {
+          "duration" => "PT5H28M",
+          "segments" => [
+            {
+              "departure" => {
+                "iataCode" => "SEA",
+                "at" => "2020-08-05T11:16:00"
+              },
+              "arrival" => {
+                "iataCode" => "BOS",
+                "terminal" => "C",
+                "at" => "2020-08-05T19:44:00"
+              },
+              "carrierCode" => "B6",
+              "number" => "2398",
+              "aircraft" => {
+                "code" => "32S"
+              },
+              "operating" => {
+                "carrierCode" => "B6"
+              },
+              "duration" => "PT5H28M",
+              "id" => "4",
+              "numberOfStops" => 0,
+              "blacklistedInEU" => false
+            }
+          ]
+        }
+      ],
+      "price" => {
+        "currency" => "USD",
+        "total" => "512.40",
+        "base" => "472.00",
+        "fees" => [
+          {
+            "amount" => "0.00",
+            "type" => "SUPPLIER"
+          },
+          {
+            "amount" => "0.00",
+            "type" => "TICKETING"
+          }
+        ],
+        "grandTotal" => "512.40"
+      },
+      "pricingOptions" => {
+        "fareType" => [
+          "PUBLISHED"
+        ],
+        "includedCheckedBagsOnly" => false
+      },
+      "validatingAirlineCodes" => [
+        "B6"
+      ],
+      "travelerPricings" => [
+        {
+          "travelerId" => "1",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "2",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "4",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        },
+        {
+          "travelerId" => "2",
+          "fareOption" => "STANDARD",
+          "travelerType" => "ADULT",
+          "price" => {
+            "currency" => "USD",
+            "total" => "256.20",
+            "base" => "236.00"
+          },
+          "fareDetailsBySegment" => [
+            {
+              "segmentId" => "2",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            },
+            {
+              "segmentId" => "4",
+              "cabin" => "ECONOMY",
+              "fareBasis" => "PI2QBOL1",
+              "brandedFare" => "DN",
+              "class" => "L",
+              "includedCheckedBags" => {
+                "quantity" => 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
   end
 end

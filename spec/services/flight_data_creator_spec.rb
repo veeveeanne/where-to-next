@@ -41,8 +41,8 @@ describe FlightDataCreator do
       expect(test).to have_key 'LAX'
       expect(test['SEA']).to be_kind_of(Array)
       expect(test['LAX']).to be_kind_of(Array)
-      expect(test['SEA'][0]).to eq 329.06
-      expect(test['LAX'][0]).to eq 329.06
+      expect(test['SEA'][0]).to eq 512.4
+      expect(test['LAX'][0]).to eq 512.4
     end
   end
 

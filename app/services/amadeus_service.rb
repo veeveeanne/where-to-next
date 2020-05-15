@@ -27,11 +27,14 @@ class AmadeusService
     departure_date = query[:departure_date]
     return_date = query[:return_date]
 
-    response = amadeus.shopping.flight_offers.get(
-      origin: origin,
-      destination: destination,
+    response = amadeus.shopping.flight_offers_search.get(
+      originLocationCode: origin,
+      destinationLocationCode: destination,
       departureDate: departure_date,
-      returnDate: return_date
+      returnDate: return_date,
+      adults: 1,
+      currencyCode: "USD",
+      max: 5
     )
 
     results = response.data
