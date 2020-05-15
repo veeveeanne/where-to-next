@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
+import whereToNextApi from '../services/WhereToNextApi'
+
 const DestinationIndexContainer = props => {
   const [destinations, setDestinations] = useState([])
 
   useEffect(() => {
-    fetch('/api/v1/destinations')
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.getDestinations()
     .then(body => {
       setDestinations(body.destinations)
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }, [])
 
   let destinationsList = destinations.map(destinationObj => {
-    return(
+    return (
       <li key={destinationObj.id}>
         {destinationObj.name}, {destinationObj.state}
       </li>

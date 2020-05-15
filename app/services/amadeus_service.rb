@@ -26,6 +26,7 @@ class AmadeusService
     destination = query[:destination]
     departure_date = query[:departure_date]
     return_date = query[:return_date]
+    results = {}
 
     response = amadeus.shopping.flight_offers_search.get(
       originLocationCode: origin,
@@ -38,12 +39,5 @@ class AmadeusService
     )
 
     results = response.data
-    flight = {}
-    flight_prices = []
-    results.each do |flight_offer|
-      flight_prices.push(flight_offer['price']['total'].to_f)
-    end
-    flight["#{destination}"] = flight_prices
-    return flight
   end
 end

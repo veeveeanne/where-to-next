@@ -134,7 +134,7 @@ const ListingContainer = props => {
   let matchOptions
   if (destinationMatches.length > 0) {
     matchOptions = destinationMatches.map((destination) => {
-      return(
+      return (
         <MatchResultTile
           key={destination.address}
           destination={destination}
@@ -177,7 +177,7 @@ const ListingContainer = props => {
   let destinationOptions
   if (searchDestinations.length > 0) {
     destinationOptions = searchDestinations.map(destination => {
-      return(
+      return (
         <DestinationResultTile
           key={destination.place_id}
           destination={destination}
@@ -210,7 +210,7 @@ const ListingContainer = props => {
     })
   }
 
-  return(
+  return (
     <div className="page">
       <div className="grid-container">
         <div className="grid-x grid-margin-x">

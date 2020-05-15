@@ -1,6 +1,14 @@
-const searchListings = (payload) => {
+const postFlights = (payload) => {
   return (
-    fetch(`/api/v1/listings/search?name=${payload.name}&state=${payload.state}`)
+    fetch('/api/v1/flights', {
+      credentials: "same-origin",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
     .then(response => {
       if (response.ok) {
         return response
@@ -15,4 +23,4 @@ const searchListings = (payload) => {
   )
 }
 
-export default searchListings
+export default postFlights

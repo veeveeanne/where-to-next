@@ -1,6 +1,6 @@
-const searchListings = (payload) => {
+const getListing = (id) => {
   return (
-    fetch(`/api/v1/listings/search?name=${payload.name}&state=${payload.state}`)
+    fetch(`/api/v1/listings/${id}`)
     .then(response => {
       if (response.ok) {
         return response
@@ -15,4 +15,4 @@ const searchListings = (payload) => {
   )
 }
 
-export default searchListings
+export default getListing

@@ -41,7 +41,7 @@ const DestinationResultTile = props => {
     addressDisplay = display_array.join(", ")
   }
 
-  return(
+  return (
     <div
       className={classValue}
       onMouseEnter={handleMouseEnter}

@@ -2,22 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import _ from 'lodash'
 
+import whereToNextApi from '../services/WhereToNextApi'
+
 const RecommendationContainer = props => {
   const [recommendation, setRecommendation] = useState({})
   const [shouldRedirect, setShouldRedirect]= useState(false)
 
   useEffect(() => {
-    fetch('/api/v1/flights')
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.getFlights()
     .then(body => {
       if (_.isEmpty(body.flight)) {
         setShouldRedirect(true)
@@ -25,7 +17,6 @@ const RecommendationContainer = props => {
         setRecommendation(body.flight)
       }
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }, [])
 
   let city
@@ -36,7 +27,7 @@ const RecommendationContainer = props => {
     city = _.startCase(cityData)
     state = recommendation.destination_airport.state
     destinations = recommendation.destinations.map((destination) => {
-      return(
+      return (
         <div key={destination.id}>
           {destination.name}
         </div>
@@ -45,11 +36,11 @@ const RecommendationContainer = props => {
   }
 
   if (shouldRedirect) {
-    return(
+    return (
       <Redirect to="/travel" />
     )
   } else {
-    return(
+    return (
       <div className="callout-container-travel">
         <div className="callout">
           <h2>You should travel to</h2>

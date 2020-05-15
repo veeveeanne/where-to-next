@@ -5,7 +5,7 @@ import Loader from 'react-loader-spinner'
 const SpinnerComponent = props => {
   const { promiseInProgress } = usePromiseTracker()
 
-  return(
+  return (
     promiseInProgress && (
       <div className="form-spacer">
         <h5 className="wait-msg">Please wait while we take a look at flight prices and evaluate the cheapest destination</h5>

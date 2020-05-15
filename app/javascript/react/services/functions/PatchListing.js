@@ -1,6 +1,14 @@
-const searchListings = (payload) => {
+const patchListing = (id, payload) => {
   return (
-    fetch(`/api/v1/listings/search?name=${payload.name}&state=${payload.state}`)
+    fetch(`/api/v1/listings/${id}`, {
+      credentials: "same-origin",
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
     .then(response => {
       if (response.ok) {
         return response
@@ -15,4 +23,4 @@ const searchListings = (payload) => {
   )
 }
 
-export default searchListings
+export default patchListing

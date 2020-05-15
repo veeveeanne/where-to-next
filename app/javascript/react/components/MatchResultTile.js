@@ -24,7 +24,7 @@ const MatchResultTile = props => {
     })
   }
 
-  return(
+  return (
     <div
       className={classValue}
       onMouseEnter={handleMouseEnter}
