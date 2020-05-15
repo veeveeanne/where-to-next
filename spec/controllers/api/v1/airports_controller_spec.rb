@@ -25,7 +25,8 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
         iata_code: 'BOS',
         latitude: 42.36514,
         longitude: -71.01777,
-        city: 'BOSTON'
+        city: 'BOSTON',
+        state: 'MA'
         )}
 
       it 'does not create a new record' do
@@ -50,10 +51,11 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
         parsed_response = JSON.parse(response.body)
 
         expect(parsed_response).to be_kind_of(Hash)
-        expect(parsed_response.length).to eq 8
+        expect(parsed_response.length).to eq 9
         expect(parsed_response['name']).to eq 'EDWARD L LOGAN INTL'
         expect(parsed_response['iata_code']).to eq 'BOS'
         expect(parsed_response['city']).to eq 'BOSTON'
+        expect(parsed_response['state']).to eq 'MA'
         expect(parsed_response['latitude'].to_f).to eq 42.36514
         expect(parsed_response['longitude'].to_f).to eq -71.01777
       end
@@ -82,10 +84,11 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
         parsed_response = JSON.parse(response.body)
 
         expect(parsed_response).to be_kind_of(Hash)
-        expect(parsed_response.length).to eq 8
+        expect(parsed_response.length).to eq 9
         expect(parsed_response['name']).to eq 'EDWARD L LOGAN INTL'
         expect(parsed_response['iata_code']).to eq 'BOS'
         expect(parsed_response['city']).to eq 'BOSTON'
+        expect(parsed_response['state']).to eq 'MA'
         expect(parsed_response['latitude'].to_f).to eq 42.36514
         expect(parsed_response['longitude'].to_f).to eq -71.01777
       end
@@ -98,7 +101,8 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
       iata_code: 'BOS',
       latitude: 42.36514,
       longitude: -71.01777,
-      city: 'BOSTON'
+      city: 'BOSTON',
+      state: 'MA'
       )}
 
     it 'returns json of airports where the name matches case-insensitively to the provided params' do
@@ -113,6 +117,7 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
       expect(parsed_response[0]['latitude'].to_d).to eq airport.latitude
       expect(parsed_response[0]['longitude'].to_d).to eq airport.longitude
       expect(parsed_response[0]['city']).to eq airport.city
+      expect(parsed_response[0]['state']).to eq airport.state
     end
 
     it 'returns json of airports where the city matches case-insensitively to the provided params' do
@@ -127,6 +132,7 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
       expect(parsed_response[0]['latitude'].to_d).to eq airport.latitude
       expect(parsed_response[0]['longitude'].to_d).to eq airport.longitude
       expect(parsed_response[0]['city']).to eq airport.city
+      expect(parsed_response[0]['state']).to eq airport.state
     end
   end
 
@@ -136,7 +142,8 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
       iata_code: 'SEA',
       latitude: 47.44889,
       longitude: -122.3094,
-      city: 'SEATTLE'
+      city: 'SEATTLE',
+      state: 'WA'
     )}
 
     it 'creates new records for the returned matches from the AmadeusWrapper' do
@@ -158,6 +165,7 @@ RSpec.describe Api::V1::AirportsController, type: :controller do
       expect(parsed_response[0]['latitude'].to_f).to eq 42.36514
       expect(parsed_response[0]['longitude'].to_f).to eq -71.01777
       expect(parsed_response[0]['city']).to eq 'BOSTON'
+      expect(parsed_response[0]['state']).to eq 'MA'
     end
   end
 end

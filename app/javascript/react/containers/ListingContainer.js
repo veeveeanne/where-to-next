@@ -8,8 +8,7 @@ import DestinationFormTile from '../components/DestinationFormTile'
 import ErrorList from '../components/ErrorList'
 import MatchResultTile from '../components/MatchResultTile'
 import DestinationResultTile from '../components/DestinationResultTile'
-import fetchListings from '../services/FetchListings'
-import searchListings from '../services/SearchListings'
+import whereToNextApi from '../services/WhereToNextApi'
 
 const ListingContainer = props => {
   const [listingForm, setListingForm] = useState({
@@ -26,7 +25,7 @@ const ListingContainer = props => {
   const legend = "Add to my bucket list"
 
   useEffect(() => {
-    fetchListings()
+    whereToNextApi.getListings()
     .then(body => {
       setListings(body.listings)
     })
@@ -77,7 +76,7 @@ const ListingContainer = props => {
     setDestinationMatches([])
     setSearchDestinations([])
     if (validForSubmission()) {
-      searchListings(listingForm)
+      whereToNextApi.searchListings(listingForm)
       .then(body => {
         if (body.destinations.length > 0) {
           setDestinationMatches(body.destinations)
@@ -114,25 +113,7 @@ const ListingContainer = props => {
   }
 
   const handleMatchClick = (payload) => {
-    fetch('/api/v1/listings', {
-      credentials: "same-origin",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.postListings(payload)
     .then(body => {
       if (body.error) {
         setErrors({destination: body["error"]})
@@ -148,7 +129,6 @@ const ListingContainer = props => {
       })
       setDestinationMatches([])
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
   let matchOptions
@@ -168,17 +148,7 @@ const ListingContainer = props => {
 
   const addDestination = () => {
     let query = listingForm.name.concat(" ", listingForm.state)
-    fetch(`/api/v1/destinations/search?query=${query}`)
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.searchDestination(query)
     .then(body => {
       if (body.results.length > 0) {
         setSearchDestinations(body.results)
@@ -190,7 +160,6 @@ const ListingContainer = props => {
         setErrors({"destination": "could not be found, please try a different search"})
       }
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
   const handleDestinationClick = (payload) => {
@@ -228,25 +197,7 @@ const ListingContainer = props => {
   }
 
   const createDestination = (destinationHolder) => {
-    fetch('/api/v1/destinations', {
-      credentials: "same-origin",
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(destinationHolder)
-    })
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .then(response => response.json())
+    whereToNextApi.postDestination(destinationHolder)
     .then(body => {
       setDestination(body)
       setListingForm({
@@ -255,31 +206,8 @@ const ListingContainer = props => {
       })
       setSearchDestinations([])
       handleMatchClick({id: body.destination.id})
-      addAirport(body)
+      whereToNextApi.postAirport(body)
     })
-    .catch(error => console.error(`Error in fetch: ${error}`))
-  }
-
-  const addAirport = (destinationHolder) => {
-    fetch('/api/v1/airports', {
-      credentials: "same-origin",
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(destinationHolder)
-    })
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`
-        let error = new Error(errorMessage)
-        throw(error)
-      }
-    })
-    .catch(error => console.error(`Error in fetch: ${error}`))
   }
 
   return(

@@ -7,13 +7,16 @@ const SpinnerComponent = props => {
 
   return(
     promiseInProgress && (
-      <div className="spinner">
-        <Loader
-          type="ThreeDots"
-          color="#028090"
-          height="100"
-          width="100"
-        />
+      <div className="form-spacer">
+        <h5 className="wait-msg">Please wait while we take a look at flight prices and evaluate the cheapest destination</h5>
+        <div className="spinner">
+          <Loader
+            type="ThreeDots"
+            color="#028090"
+            height="100"
+            width="100"
+            />
+        </div>
       </div>
     )
   )
