@@ -38,5 +38,12 @@ class AmadeusService
     )
 
     results = response.data
+    flight = {}
+    flight_prices = []
+    results.each do |flight_offer|
+      flight_prices.push(flight_offer['price']['total'].to_f)
+    end
+    flight["#{destination}"] = flight_prices
+    return flight
   end
 end
